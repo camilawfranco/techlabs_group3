@@ -5,11 +5,8 @@ const router = new express.Router()
 router.post('/users', async (req, res) => {
     const user = new User(req.body)
     try {
-        const user = new User(req.body)
-        user.save().then(()=> {res.send(user)}
-    
-            
-        )
+       
+       
         await user.save()
         
 
@@ -51,20 +48,23 @@ router.get('/users/:id', async (req, res) => {
 router.patch('/users/:id', async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'age', 'password', 'email']
-    const _id = req.params.id
+   
     const isValidOp = updates.every((update)=> allowedUpdates.includes(update))
     if (! isValidOp) {
         return res.status(400).send({ error: 'invalid'})
     }
     try {
-        const user = await User.findById(_id)
-        updates.forEach((update)=> user(update) =  req.body(update))
+        const user = await User.findById(req.params.id)
+        
         if (!user) {
-                     return res.status(404).send()}
+                     return res.status(406).send()}
+        updates.forEach((update)=> user[update] = req.body[update])
+        await user.save()
         res.send(user)
+     
 
     } catch(e) {
-        res.status(500).send()
+        res.status(501).send()
 
 
     }
