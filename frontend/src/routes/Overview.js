@@ -11,9 +11,9 @@ const Overview = () => {
 
   return (
     <Layout>
-      <h2>Overview with upcoming events</h2>
-      <EventOverview />
+      <h1>Upcoming events</h1>
       <button onClick={createEvent}>Create a new Event</button>
+      <EventOverview />
     </Layout>
   );
 };

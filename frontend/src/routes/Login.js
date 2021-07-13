@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 
 const Login = () => {
   const history = useHistory();
-  const [userLogin, setUserLogin] = useState(false);
-
-  useEffect(() => {
-    setUserLogin(true);
-  }, [userLogin]);
-  console.log("user", userLogin);
 
   // dummy login
   const dummyLogin = () => {
     history.push("/overview");
-    setUserLogin(true);
+    const user = {
+      name: "Christopher",
+      email: "cw@web.de",
+    };
+    localStorage.setItem("profile", JSON.stringify(user));
   };
 
   return (

@@ -3,15 +3,14 @@ import Sidebar from "./Sidebar";
 import styled from "styled-components";
 
 const Layout = ({ children }) => {
+  const user = localStorage.getItem("profile");
+
   return (
     <LayoutContainer>
       <SidebarContainer>
         <Sidebar />
       </SidebarContainer>
-      <ContentContainer>
-        <h1>Content</h1>
-        {children}
-      </ContentContainer>
+      {user && <ContentContainer>{children}</ContentContainer>}
     </LayoutContainer>
   );
 };
