@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Layout from "../components/Layout";
+import { createEvent } from "../api";
 
 const InitialState = {
   name: "",
@@ -21,6 +22,7 @@ const CreateEvent = () => {
     event.preventDefault();
     const eventList = JSON.parse(localStorage.getItem("events")) || [];
     localStorage.setItem("events", JSON.stringify([...eventList, eventData]));
+    createEvent(eventData);
     setEventData(InitialState);
   };
 
