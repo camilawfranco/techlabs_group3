@@ -5,6 +5,7 @@ const cors = require("cors");
 
 const userRouter = require("./routers/user");
 const taskRouter = require("./routers/task");
+const eventRouter = require("./routers/event");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -14,6 +15,7 @@ app.use(cors());
 
 app.use(userRouter);
 app.use(taskRouter);
+app.use(eventRouter);
 
 app.listen(port, () => {
   console.log("Server is up on port " + port);

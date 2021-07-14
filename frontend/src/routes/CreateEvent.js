@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Layout from "../components/Layout";
 import { createEvent } from "../api";
+import { useHistory } from "react-router-dom";
 
 const InitialState = {
   name: "",
@@ -12,6 +13,7 @@ const InitialState = {
 };
 
 const CreateEvent = () => {
+  const history = useHistory();
   const [eventData, setEventData] = useState(InitialState);
 
   const handleChange = (event) => {
@@ -24,6 +26,7 @@ const CreateEvent = () => {
     localStorage.setItem("events", JSON.stringify([...eventList, eventData]));
     createEvent(eventData);
     setEventData(InitialState);
+    history.push("/overview");
   };
 
   const handleClear = () => {

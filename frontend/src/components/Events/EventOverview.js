@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import EventTile from "./EventTile";
+import { getEvents } from "../../api";
 
 const EventOverview = () => {
+  const [events, setEvents] = useState();
+
+  useEffect(() => {
+    let copyEvent = [];
+    getEvents()
+      .then((response) => {
+        copyEvent.push(response.data);
+      })
+      .then(setEvents(copyEvent));
+  }, []);
+
   const eventList = JSON.parse(localStorage.getItem("events")) || [];
   return (
     <EventOverviewContainer>
