@@ -66,6 +66,7 @@ erouter.patch("/events/:id", async (req, res) => {
   }
 });
 erouter.delete("/events/:id", async (req, res) => {
+  console.log("test1");
   try {
     const todo = await Event.findByIdAndDelete(req.params.id);
     if (!todo) {

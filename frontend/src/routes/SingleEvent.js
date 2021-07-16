@@ -1,20 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Layout from "../components/Layout";
 import { createEvent } from "../api";
 import { useHistory } from "react-router-dom";
+import { getEvents } from "../api";
 
-const InitialState = {
-  name: "",
-  place: "",
-  time: "",
-  participants: "",
-  id: "TestID",
-};
-
-const CreateEvent = () => {
+const SingleEvent = () => {
   const history = useHistory();
-  const [eventData, setEventData] = useState(InitialState);
+  const [isLoading, setIsLoading] = useState(true);
+  const [eventData, setEventData] = useState({
+    name: "",
+    place: "",
+    time: "",
+    participants: "",
+    id: "TestID",
+  });
+  const id = window.location.href.split("/").pop();
+
+  useEffect(() => {
+    getEvents().then((response) => {
+      const eventData = response.data.map((event) => {
+        if (event._id === id) {
+          setEventData(event);
+        }
+      });
+    });
+  }, []);
+  console.log(eventData);
 
   const handleChange = (event) => {
     setEventData({ ...eventData, [event.currentTarget.name]: event.currentTarget.value });
@@ -23,17 +35,16 @@ const CreateEvent = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     createEvent(eventData);
-    setEventData(InitialState);
     history.push("/overview");
   };
 
-  const handleClear = () => {
-    setEventData(InitialState);
+  const handleDelete = () => {
+    // Todo: Write delete function
   };
 
   return (
     <Layout>
-      <h1>New Event</h1>
+      <h1>Single Event</h1>
       <InputForm onSubmit={handleSubmit}>
         <InputField
           type="text"
@@ -72,15 +83,15 @@ const CreateEvent = () => {
           required
         />
         <button type="submit">Submit</button>
-        <button type="button" onClick={handleClear}>
-          Clear
+        <button type="button" onClick={handleDelete}>
+          Delete
         </button>
       </InputForm>
     </Layout>
   );
 };
 
-export default CreateEvent;
+export default SingleEvent;
 
 const InputField = styled.input``;
 

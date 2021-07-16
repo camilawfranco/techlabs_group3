@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const EventTile = ({ event }) => {
+const EventTile = ({ event, handleShowEvent }) => {
   return (
-    <EventTileContainer>
+    <EventTileContainer onClick={() => handleShowEvent(event._id)}>
       <h1>{event.name}</h1>
       <h4>{event.participants}</h4>
       <p>{event.place}</p>
