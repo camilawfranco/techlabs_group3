@@ -4,23 +4,29 @@ import EventTile from "./EventTile";
 import { getEvents } from "../../api";
 
 const EventOverview = () => {
-  const [events, setEvents] = useState();
+  const [events, setEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    let copyEvent = [];
-    getEvents()
-      .then((response) => {
-        copyEvent.push(response.data);
-      })
-      .then(setEvents(copyEvent));
+    getEvents().then((response) => {
+      setEvents(response.data);
+    });
+    setIsLoading(false);
   }, []);
 
-  const eventList = JSON.parse(localStorage.getItem("events")) || [];
+  const handleClick = (index) => {
+    console.log("id: ", index);
+  };
+
   return (
     <EventOverviewContainer>
-      {eventList.map((event, index) => {
-        return <EventTile key={index} event={event} />;
-      })}
+      {!isLoading ? (
+        events.map((event, index) => {
+          return <EventTile key={index} event={event} onClick={() => handleClick(index)} />;
+        })
+      ) : (
+        <p>loading..</p>
+      )}
     </EventOverviewContainer>
   );
 };
