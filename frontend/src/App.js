@@ -17,8 +17,6 @@ function App() {
         <Route path="/calender" component={Calender} />
         <Route path="/newEvent" component={CreateEvent} />
         <Route path="/event/:id" component={SingleEvent} />
-        {/* <Route path="/event/60eeb44ef258f53dccd97fcf" component={SingleEvent} />
-        <Route path="/event/60f147a20a9f0e459450d405" component={SingleEvent} /> */}
       </Switch>
     </BrowserRouter>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import EventTile from "./EventTile";
-import { deleteEvent, getEvents } from "../../api";
+import { getEvents } from "../../api";
 import { useHistory } from "react-router-dom";
 
 // Todo:
@@ -18,7 +18,7 @@ const EventOverview = () => {
       setEvents(response.data);
     });
     setIsLoading(false);
-  }, []);
+  }, [window.location.href]);
 
   const handleShowEvent = async (id) => {
     console.log("id: ", id);
