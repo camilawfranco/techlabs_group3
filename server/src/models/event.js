@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const Event = mongoose.model("Event", {
+  creator: {
+    type: String,
+  },
   name: {
     type: String,
   },
@@ -13,5 +16,15 @@ const Event = mongoose.model("Event", {
   participants: {
     type: String,
   },
+  // participants: [
+  //   {
+  //     name: {
+  //       type: String,
+  //     },
+  //     id: {
+  //       type: String,
+  //     },
+  //   },
+  // ],
 });
 module.exports = Event;

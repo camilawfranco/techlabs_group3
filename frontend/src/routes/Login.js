@@ -10,6 +10,7 @@ const Login = () => {
     const user = {
       name: "Christopher",
       email: "cw@web.de",
+      id: "ChristopherTestID",
     };
     localStorage.setItem("profile", JSON.stringify(user));
   };

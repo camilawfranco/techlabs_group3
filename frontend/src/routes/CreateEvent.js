@@ -4,16 +4,18 @@ import Layout from "../components/Layout";
 import { createEvent } from "../api";
 import { useHistory } from "react-router-dom";
 
-const InitialState = {
-  name: "",
-  place: "",
-  time: "",
-  participants: "",
-  id: "TestID",
-};
-
 const CreateEvent = () => {
+  const user = JSON.parse(localStorage.getItem("profile"));
   const history = useHistory();
+  const InitialState = {
+    creator: user.id,
+    name: "",
+    place: "",
+    time: "",
+    participants: "",
+    id: "TestID",
+  };
+
   const [eventData, setEventData] = useState(InitialState);
 
   const handleChange = (event) => {
@@ -25,6 +27,7 @@ const CreateEvent = () => {
     createEvent(eventData);
     setEventData(InitialState);
     history.push("/overview");
+    console.log(eventData);
   };
 
   const handleClear = () => {

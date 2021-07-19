@@ -6,6 +6,8 @@ import { useHistory } from "react-router-dom";
 
 const SingleEvent = () => {
   const history = useHistory();
+  const user = JSON.parse(localStorage.getItem("profile"));
+  const [isCreator, setIsCreator] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [eventData, setEventData] = useState({
     name: "",
@@ -20,6 +22,9 @@ const SingleEvent = () => {
     getSingleEvent(eventId).then((response) => {
       setEventData(response.data);
       setIsLoading(false);
+      if (response.data.creator === user.id) {
+        setIsCreator(true);
+      }
     });
   }, []);
 
@@ -29,9 +34,8 @@ const SingleEvent = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(eventId, eventData);
     updateEvent(eventId, eventData);
-    // history.push("/overview");
+    history.push("/overview");
   };
 
   const handleDelete = (id) => {
@@ -39,12 +43,14 @@ const SingleEvent = () => {
     history.push("/overview");
   };
 
+  console.log("isCreator", isCreator);
   return (
     <Layout>
       <h1>Single Event</h1> <button onClick={() => history.push("/overview")}>Back to Overview</button>
       {!isLoading ? (
         <InputForm onSubmit={handleSubmit}>
           <InputField
+            disabled={!isCreator}
             type="text"
             name="name"
             id="name"
@@ -55,6 +61,7 @@ const SingleEvent = () => {
           />
           <InputField
             type="text"
+            disabled={!isCreator}
             name="place"
             id="place"
             value={eventData.place}
@@ -64,6 +71,7 @@ const SingleEvent = () => {
           />
           <InputField
             type="text"
+            disabled={!isCreator}
             name="time"
             id="time"
             value={eventData.time}
@@ -73,6 +81,7 @@ const SingleEvent = () => {
           />
           <InputField
             type="text"
+            disabled={!isCreator}
             name="participants"
             id="participants"
             value={eventData.participants}
