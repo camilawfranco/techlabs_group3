@@ -5,6 +5,7 @@ import Layout from "../components/Layout";
 
 const Overview = () => {
   const history = useHistory();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const createEvent = () => {
     history.push("/newEvent");
@@ -13,7 +14,7 @@ const Overview = () => {
   return (
     <Layout>
       <h1>Upcoming events</h1>
-      <button onClick={createEvent}>Create a new Event</button>
+      {user && <button onClick={createEvent}>Create a new Event</button>}
       <EventOverview />
     </Layout>
   );

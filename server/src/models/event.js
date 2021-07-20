@@ -13,9 +13,11 @@ const Event = mongoose.model("Event", {
   time: {
     type: String,
   },
-  participants: {
-    type: String,
-  },
+  participants: [
+    {
+      type: String,
+    },
+  ],
   // participants: [
   //   {
   //     name: {

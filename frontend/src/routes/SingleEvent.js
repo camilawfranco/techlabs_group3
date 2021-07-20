@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Layout from "../components/Layout";
-import { createEvent, deleteEvent, getSingleEvent, updateEvent } from "../api";
+import { deleteEvent, getSingleEvent, updateEvent } from "../api";
 import { useHistory } from "react-router-dom";
 
 const SingleEvent = () => {
@@ -9,6 +9,7 @@ const SingleEvent = () => {
   const user = JSON.parse(localStorage.getItem("profile"));
   const [isCreator, setIsCreator] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [nameWoLogin, setNameWoLogin] = useState("");
   const [eventData, setEventData] = useState({
     name: "",
     place: "",
@@ -22,7 +23,7 @@ const SingleEvent = () => {
     getSingleEvent(eventId).then((response) => {
       setEventData(response.data);
       setIsLoading(false);
-      if (response.data.creator === user.id) {
+      if (response.data.creator === user?.id) {
         setIsCreator(true);
       }
     });
@@ -30,6 +31,10 @@ const SingleEvent = () => {
 
   const handleChange = (event) => {
     setEventData({ ...eventData, [event.currentTarget.name]: event.currentTarget.value });
+  };
+
+  const handleNameWoLogin = (event) => {
+    setNameWoLogin(event.currentTarget.value);
   };
 
   const handleSubmit = (event) => {
@@ -43,10 +48,20 @@ const SingleEvent = () => {
     history.push("/overview");
   };
 
+  const handleJoin = (event) => {
+    event.preventDefault();
+    if (nameWoLogin !== "") {
+      const updatedParticipants = [...eventData.participants];
+      updatedParticipants.push(nameWoLogin);
+      setEventData({ ...eventData, participants: updatedParticipants });
+    }
+  };
+
   console.log("isCreator", isCreator);
   return (
     <Layout>
-      <h1>Single Event</h1> <button onClick={() => history.push("/overview")}>Back to Overview</button>
+      <h1>Single Event</h1>
+      {user && <button onClick={() => history.push("/overview")}>Back to Overview</button>}
       {!isLoading ? (
         <InputForm onSubmit={handleSubmit}>
           <InputField
@@ -89,10 +104,25 @@ const SingleEvent = () => {
             onChange={handleChange}
             required
           />
-          <button type="submit">Save changes</button>
-          <button type="button" onClick={() => handleDelete(eventId)}>
-            Delete
-          </button>
+          {!user && (
+            <InputField
+              type="text"
+              name="name"
+              id="id"
+              value={nameWoLogin}
+              placeholder="Enter Name to join Event"
+              onChange={handleNameWoLogin}
+            />
+          )}
+          {isCreator && (
+            <>
+              <button type="submit">Save changes</button>
+              <button type="button" onClick={() => handleDelete(eventId)}>
+                Delete
+              </button>
+            </>
+          )}
+          <button onClick={handleJoin}>Join Meeting</button>
         </InputForm>
       ) : (
         <h1>Loading...</h1>

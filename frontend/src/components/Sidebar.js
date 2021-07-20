@@ -7,20 +7,27 @@ const Sidebar = () => {
   const history = useHistory();
   const user = JSON.parse(localStorage.getItem("profile"));
   const testLogout = () => {
-    // todo: logout
     localStorage.removeItem("profile");
   };
 
   return (
     <SidebarContainer>
       <h1>Sidebar</h1>
-      <Avatar onClick={() => history.push("/profile")}>{user.name}</Avatar>
-      <Navigation to="/profile">Profile</Navigation>
-      <Navigation to="/overview">Overview</Navigation>
-      <Navigation to="/calender">Calender</Navigation>
-      <Navigation to="/" onClick={testLogout}>
-        Logout
-      </Navigation>
+      {user ? (
+        <>
+          <Avatar onClick={() => history.push("/profile")}>{user?.name}</Avatar>
+          <Navigation to="/profile">Profile</Navigation>
+          <Navigation to="/overview">Overview</Navigation>
+          <Navigation to="/calender">Calender</Navigation>
+          <Navigation to="/overview" onClick={testLogout}>
+            Logout
+          </Navigation>
+        </>
+      ) : (
+        <Navigation to="/" onClick={testLogout}>
+          Login
+        </Navigation>
+      )}
     </SidebarContainer>
   );
 };

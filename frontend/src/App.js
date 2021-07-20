@@ -8,11 +8,13 @@ import CreateEvent from "./routes/CreateEvent";
 import SingleEvent from "./routes/SingleEvent";
 
 function App() {
+  const user = JSON.parse(localStorage.getItem("profile"));
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/profile" component={Profile} />
         <Route exact path="/" component={Login} />
+        <Route path="/event/wo/:id" component={SingleEvent} />
+        <Route path="/profile" component={Profile} />
         <Route path="/overview" component={Overview} />
         <Route path="/calender" component={Calender} />
         <Route path="/newEvent" component={CreateEvent} />

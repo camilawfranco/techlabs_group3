@@ -24,10 +24,12 @@ const CreateEvent = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    createEvent(eventData);
+    const participantsList = eventData.participants.split(", ");
+    const uploadData = { ...eventData, participants: participantsList };
+    console.log(uploadData);
+    createEvent(uploadData);
     setEventData(InitialState);
     history.push("/overview");
-    console.log(eventData);
   };
 
   const handleClear = () => {

@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
       <SidebarContainer>
         <Sidebar />
       </SidebarContainer>
-      {user && <ContentContainer>{children}</ContentContainer>}
+      <ContentContainer>{children}</ContentContainer>
     </LayoutContainer>
   );
 };

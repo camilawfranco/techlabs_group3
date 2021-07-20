@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { deleteEvent } from "../../api";
 import { useHistory } from "react-router";
@@ -6,8 +6,7 @@ import { useHistory } from "react-router";
 const EventTile = ({ event, handleShowEvent }) => {
   const history = useHistory();
   const user = JSON.parse(localStorage.getItem("profile"));
-  const isCreator = user.id === event.creator;
-  console.log(isCreator);
+  const isCreator = user?.id === event.creator;
 
   const handleDelete = (id, e) => {
     e.stopPropagation();
@@ -17,10 +16,10 @@ const EventTile = ({ event, handleShowEvent }) => {
 
   return (
     <EventTileContainer onClick={() => handleShowEvent(event._id)}>
-      <h1>{event.name}</h1>
-      <h4>{event.participants}</h4>
-      <p>{event.place}</p>
-      <p>{event.time}</p>
+      <h1>Name: {event.name}</h1>
+      <h4>Participants: {event.participants.map((participant) => `${participant}, `)}</h4>
+      <p>Place: {event.place}</p>
+      <p>Time: {event.time}</p>
       {isCreator && <button onClick={(e) => handleDelete(event._id, e)}>Delete</button>}
     </EventTileContainer>
   );
