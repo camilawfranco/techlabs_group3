@@ -53,7 +53,11 @@ const SingleEvent = () => {
     if (nameWoLogin !== "") {
       const updatedParticipants = [...eventData.participants];
       updatedParticipants.push(nameWoLogin);
+      // newData => setState is not quick enough; updateEvent would run with old state
+      const newData = { ...eventData, participants: updatedParticipants };
       setEventData({ ...eventData, participants: updatedParticipants });
+      updateEvent(eventId, newData);
+      history.push("/overview");
     }
   };
 

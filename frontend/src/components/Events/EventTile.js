@@ -17,7 +17,16 @@ const EventTile = ({ event, handleShowEvent }) => {
   return (
     <EventTileContainer onClick={() => handleShowEvent(event._id)}>
       <h1>Name: {event.name}</h1>
-      <h4>Participants: {event.participants.map((participant) => `${participant}, `)}</h4>
+      <h4>
+        Participants:{" "}
+        {event.participants.map((participant, index) => {
+          if (index === event.participants.length - 1) {
+            return participant;
+          } else {
+            return `${participant}, `;
+          }
+        })}
+      </h4>
       <p>Place: {event.place}</p>
       <p>Time: {event.time}</p>
       {isCreator && <button onClick={(e) => handleDelete(event._id, e)}>Delete</button>}
