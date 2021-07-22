@@ -70,7 +70,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 
-# Eva 18.07.21
+### Eva 18.07.21
 Created the second branch "eva_html_css" and started working on html & css for the application.
 First step "Log In" page is done 
 
