@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Layout from "../components/Layout";
 import { createEvent } from "../api";
 import { useHistory } from "react-router-dom";
 
@@ -37,7 +36,7 @@ const CreateEvent = () => {
   };
 
   return (
-    <Layout>
+    <>
       <h1>New Event</h1>
       <InputForm onSubmit={handleSubmit}>
         <InputField
@@ -81,7 +80,7 @@ const CreateEvent = () => {
           Clear
         </button>
       </InputForm>
-    </Layout>
+    </>
   );
 };
 

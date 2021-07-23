@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Layout from "../components/Layout";
 
 const Profile = () => {
   const user = JSON.parse(localStorage.getItem("profile"));
@@ -53,7 +52,7 @@ const Profile = () => {
   };
 
   return (
-    <Layout>
+    <>
       <h1>Profile</h1>
       <Form onSubmit={handleSubmit}>
         <input type="text" name="name" id="name" value={profileData.name} onChange={handleChange} />
@@ -81,7 +80,7 @@ const Profile = () => {
           Abort
         </button>
       </Form>
-    </Layout>
+    </>
   );
 };
 

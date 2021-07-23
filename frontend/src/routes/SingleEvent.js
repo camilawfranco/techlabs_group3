@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Layout from "../components/Layout";
 import { deleteEvent, getSingleEvent, updateEvent } from "../api";
 import { useHistory } from "react-router-dom";
 
@@ -50,20 +49,25 @@ const SingleEvent = () => {
 
   const handleJoin = (event) => {
     event.preventDefault();
-    if (nameWoLogin !== "") {
-      const updatedParticipants = [...eventData.participants];
-      updatedParticipants.push(nameWoLogin);
-      // newData => setState is not quick enough; updateEvent would run with old state
-      const newData = { ...eventData, participants: updatedParticipants };
-      setEventData({ ...eventData, participants: updatedParticipants });
-      updateEvent(eventId, newData);
-      history.push("/overview");
+    const updatedParticipants = [...eventData.participants];
+    const newParticipant = "";
+    if (user) {
+      updatedParticipants.push(user?.name);
+    } else {
+      if (nameWoLogin !== "") {
+        updatedParticipants.push(nameWoLogin);
+      }
     }
+    // newData => setState is not quick enough; updateEvent would run with old state
+    const newData = { ...eventData, participants: updatedParticipants };
+    setEventData({ ...eventData, participants: updatedParticipants });
+    updateEvent(eventId, newData);
+    history.push("/overview");
   };
 
   console.log("isCreator", isCreator);
   return (
-    <Layout>
+    <>
       <h1>Single Event</h1>
       {user && <button onClick={() => history.push("/overview")}>Back to Overview</button>}
       {!isLoading ? (
@@ -131,7 +135,7 @@ const SingleEvent = () => {
       ) : (
         <h1>Loading...</h1>
       )}
-    </Layout>
+    </>
   );
 };
 

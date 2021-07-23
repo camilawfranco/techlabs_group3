@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router";
 
 const Sidebar = () => {
   const history = useHistory();
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const [user, setUser] = useState(null);
+  // const user = JSON.parse(localStorage.getItem("profile"));
   const testLogout = () => {
     localStorage.removeItem("profile");
   };
+  window.addEventListener("storage", () => console.log("Storage updated"));
+
+  // Update is not yet working
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("profile")));
+    console.log("useEffect");
+  }, []);
 
   return (
     <SidebarContainer>

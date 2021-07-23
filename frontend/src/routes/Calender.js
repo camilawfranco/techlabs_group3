@@ -1,12 +1,7 @@
 import React from "react";
-import Layout from "../components/Layout";
 
 const Calender = () => {
-  return (
-    <Layout>
-      <h1>Calender</h1>
-    </Layout>
-  );
+  return <h1>Calender</h1>;
 };
 
 export default Calender;

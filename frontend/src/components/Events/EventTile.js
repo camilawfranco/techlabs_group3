@@ -1,35 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { deleteEvent } from "../../api";
+import { deleteEvent, updateEvent } from "../../api";
 import { useHistory } from "react-router";
 
 const EventTile = ({ event, handleShowEvent }) => {
   const history = useHistory();
+  const [eventData, setEventData] = useState({ ...event });
   const user = JSON.parse(localStorage.getItem("profile"));
   const isCreator = user?.id === event.creator;
 
-  const handleDelete = (id, e) => {
-    e.stopPropagation();
+  const handleDelete = (id, event) => {
+    event.stopPropagation();
     deleteEvent(id);
     history.push("/overview");
   };
 
+  const handleJoin = (event) => {
+    event.stopPropagation();
+    const newParticipantsList = [...eventData.participants, user?.name];
+    const newData = { ...eventData, participants: newParticipantsList };
+    setEventData({ ...newData });
+    updateEvent(newData._id, newData);
+  };
+
   return (
-    <EventTileContainer onClick={() => handleShowEvent(event._id)}>
-      <h1>Name: {event.name}</h1>
+    <EventTileContainer onClick={() => handleShowEvent(eventData._id)}>
+      <h1>Name: {eventData.name}</h1>
       <h4>
         Participants:{" "}
-        {event.participants.map((participant, index) => {
-          if (index === event.participants.length - 1) {
+        {eventData.participants.map((participant, index) => {
+          if (index === eventData.participants.length - 1) {
             return participant;
           } else {
             return `${participant}, `;
           }
         })}
       </h4>
-      <p>Place: {event.place}</p>
-      <p>Time: {event.time}</p>
-      {isCreator && <button onClick={(e) => handleDelete(event._id, e)}>Delete</button>}
+      <p>Place: {eventData.place}</p>
+      <p>Time: {eventData.time}</p>
+      {isCreator && <button onClick={(e) => handleDelete(eventData._id, event)}>Delete</button>}
+      {user && <button onClick={handleJoin}>Join Meeting</button>}
     </EventTileContainer>
   );
 };
