@@ -20,8 +20,9 @@ const Sidebar = () => {
 
   return (
     <SidebarContainer>
-      <h1>Sidebar</h1>
-      {user ? (
+      <Header>Event Creator</Header>
+      {/* TODO: Set true back to "user", when ready. True is set to show the sidebar for further development */}
+      {true ? (
         <>
           <Avatar onClick={() => history.push("/profile")}>{user?.name}</Avatar>
           <Navigation to="/profile">Profile</Navigation>
@@ -42,19 +43,33 @@ const Sidebar = () => {
 
 export default Sidebar;
 
+const Header = styled.h1`
+  color: steelblue;
+`;
+
 const SidebarContainer = styled.div`
+  width: 300px;
+  height: 100%;
+  background-color: lightsteelblue;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const Navigation = styled(NavLink)`
+  width: 250px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: lightgray;
+  margin: 5px 0;
   text-decoration: none;
   color: black;
   display: flex;
   justify-content: center;
+  align-items: center;
   &:hover {
     background: grey;
+    color: lightgray;
     border-radius: 10px;
   }
 `;
@@ -63,6 +78,7 @@ const Avatar = styled.div`
   background: grey;
   width: 100px;
   height: 100px;
+  margin-bottom: 40px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
