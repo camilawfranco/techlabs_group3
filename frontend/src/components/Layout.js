@@ -18,10 +18,14 @@ const Layout = ({ children }) => {
 export default Layout;
 
 const LayoutContainer = styled.div`
+  position: absolute;
   display: grid;
   grid-template-columns: 1fr 4fr;
+  height: 100%;
 `;
 
 const SidebarContainer = styled.div``;
 
-const ContentContainer = styled.div``;
+const ContentContainer = styled.div`
+  margin-left: 10px;
+`;
