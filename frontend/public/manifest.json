@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Event Creator",
+  "name": "App to easily create and manage events",
   "icons": [
     {
       "src": "favicon.ico",
