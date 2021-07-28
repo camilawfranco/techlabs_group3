@@ -29,12 +29,21 @@ const Profile = () => {
   };
 
   const handleChange = (event) => {
-    setProfileData({ ...profileData, [event.currentTarget.name]: event.currentTarget.value });
+    setProfileData({
+      ...profileData,
+      [event.currentTarget.name]: event.currentTarget.value,
+    });
     console.log(event.currentTarget.name, event.currentTarget.value);
-    if (event.currentTarget.name === "password" && event.currentTarget.value !== "") {
+    if (
+      event.currentTarget.name === "password" &&
+      event.currentTarget.value !== ""
+    ) {
       setChangePassword(true);
     }
-    if (event.currentTarget.name === "password" && event.currentTarget.value === "") {
+    if (
+      event.currentTarget.name === "password" &&
+      event.currentTarget.value === ""
+    ) {
       setChangePassword(false);
     }
     setInfoMessage("");
@@ -55,9 +64,21 @@ const Profile = () => {
     <>
       <h1>Profile</h1>
       <Form onSubmit={handleSubmit}>
-        <input type="text" name="name" id="name" value={profileData.name} onChange={handleChange} />
-        <input type="text" name="email" id="email" value={profileData.email} onChange={handleChange} />
-        <input
+        <TextField
+          type="text"
+          name="name"
+          id="name"
+          value={profileData.name}
+          onChange={handleChange}
+        />
+        <TextField
+          type="text"
+          name="email"
+          id="email"
+          value={profileData.email}
+          onChange={handleChange}
+        />
+        <TextField
           type="password"
           name="password"
           id="password"
@@ -66,7 +87,7 @@ const Profile = () => {
           placeholder="*****"
         />
         {changePassword && (
-          <input
+          <TextField
             type="password"
             name="confirmPW"
             id="confirmPW"
@@ -75,10 +96,12 @@ const Profile = () => {
           />
         )}
         {infoMessage && <InfoBox>{infoMessage}</InfoBox>}
-        <button type="submit">Submit</button>
-        <button type="button" onClick={handleAbort}>
-          Abort
-        </button>
+        <ButtonWrapper>
+          <Button type="submit">Submit</Button>
+          <Button type="button" onClick={handleAbort}>
+            Abort
+          </Button>
+        </ButtonWrapper>
       </Form>
     </>
   );
@@ -89,6 +112,40 @@ export default Profile;
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+`;
+
+const TextField = styled.input`
+  height: 25px;
+  width: 300px;
+  border-radius: 5px;
+  margin: 5px 0;
+  background-color: lightgray;
+
+  color: steelblue;
+  font-size: medium;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const Button = styled.button`
+  width: 150px;
+  height: 25px;
+  border-radius: 5px;
+  background-color: lightgray;
+  margin-right: 5px;
+  text-decoration: none;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background: grey;
+    color: lightgray;
+    border-radius: 10px;
+  }
 `;
 
 const InfoBox = styled.div``;
