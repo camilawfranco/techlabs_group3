@@ -44,13 +44,13 @@ const Sidebar = () => {
 export default Sidebar;
 
 const Header = styled.h1`
-  color: steelblue;
+  color: black;
 `;
 
 const SidebarContainer = styled.div`
   width: 300px;
   height: 100%;
-  background-color: lightsteelblue;
+  background-color: #89B0AE;
   display: flex;
   flex-direction: column;
   align-items: center;
