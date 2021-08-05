@@ -68,3 +68,24 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### For backend
+install node.js (https://nodejs.org/en/)
+### You can download the MongoDB Community Server from the MongoDB download page. 
+The download is a zip file. Unzip the contents, change the folder name to “mongodb”, and 
+move it to your users home directory. From there, create a “mongodb-data” directory in 
+your user directory to store the database data. 
+You can start the server using the following command. Make sure to swap out 
+“/Users/Igor/” with the correct path to your users home directory. 
+
+/Users/Igor/mongodb/bin/mongod --dbpath=/Users/Igor/mongodb-data 
+
+Should run in one terminal all the time!!!!
+### Install localy
+npm i mongoose@5.3.16
+npm i validator@10.9.0
+npm i bcryptjs@2.4.3
+npm i jsonwebtoken@8.4.0 
+### Run in another terminal
+npm run dev
+
+
