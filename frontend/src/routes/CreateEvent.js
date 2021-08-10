@@ -37,7 +37,7 @@ const CreateEvent = () => {
 
   return (
     <>
-      <h1>New Event</h1>
+      <Title> New Event</Title>
       <InputForm onSubmit={handleSubmit}>
         <InputField
           type="text"
@@ -75,10 +75,14 @@ const CreateEvent = () => {
           onChange={handleChange}
           required
         />
-        <button type="submit">Submit</button>
-        <button type="button" onClick={handleClear}>
-          Clear
-        </button>
+        <styledButton>
+          <button type="submit">Submit</button>
+        </styledButton>
+        
+          <button type="button" onClick={handleClear}>
+            Clear
+          </button>
+        
       </InputForm>
     </>
   );
@@ -86,9 +90,41 @@ const CreateEvent = () => {
 
 export default CreateEvent;
 
-const InputField = styled.input``;
+const InputField = styled.input`
+  padding: 10px 10px;
+  border-radius: 50%;
+  width: 400px;
+  height: 50px;
+  border-radius: 10px;
+  background-color: lightgray;
+  margin: 5px 0;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  border: none;
+  `;
 
 const InputForm = styled.form`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  margin: 50px 100px;
+`;
+
+
+//New styled components element to edit the look of the form buttons
+const styledButton = styled.button`
+  background-color: blue;
+  margin: 100px 0;
+
+`;
+
+//New styled component to edit the H1
+const Title = styled.h1`
+  color: black;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+
 `;
