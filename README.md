@@ -44,7 +44,8 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 ### Initial setup Backend
 
-### For backend
+#### For Windows
+
 install node.js (https://nodejs.org/en/)
 ### You can download the MongoDB Community Server from the MongoDB download page. 
 The download is a zip file. Unzip the contents, change the folder name to “mongodb”, and 
@@ -64,7 +65,18 @@ npm i jsonwebtoken@8.4.0
 ### Run in another terminal
 npm run dev
 
+#### For macOS
 
+Follow the instructions given here (via homebrew) https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
+
+Start the mongoDB local server via
+### `brew services start mongodb-community@5.0`
+
+Start the backend - go to the backend folder - src and type
+### `node index.js`
+
+Start the frontend - go to the frontend folder and type
+### `npm start`
 
 
 
