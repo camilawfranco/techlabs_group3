@@ -20,11 +20,14 @@ const Sidebar = () => {
 
   return (
     <SidebarContainer>
-      <Header>Event Creator</Header>
+      <Logo src={require("../Logo_Aloha.svg").default} alt="Logo" />  
       {/* TODO: Set true back to "user", when ready. True is set to show the sidebar for further development */}
       {true ? (
         <>
-          <Avatar onClick={() => history.push("/profile")}>{user?.name}</Avatar>
+          <Avatar onClick={() => history.push("/profile")}>
+            {user?.name.charAt(0)}
+            {user?.name.charAt(1).toUpperCase()}
+          </Avatar>
           <Navigation to="/profile">Profile</Navigation>
           <Navigation to="/overview">Overview</Navigation>
           <Navigation to="/calender">Calender</Navigation>
@@ -43,14 +46,14 @@ const Sidebar = () => {
 
 export default Sidebar;
 
-const Header = styled.h1`
-  color: black;
+const Logo = styled.img`
+  height: 150px;
 `;
 
 const SidebarContainer = styled.div`
   width: 300px;
   height: 100%;
-  background-color: #89B0AE;
+  background-color: #89b0ae;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -80,6 +83,9 @@ const Avatar = styled.div`
   height: 100px;
   margin-bottom: 40px;
   border-radius: 50%;
+  font-size: 50px;
+  font-weight: bold;
+  color: lightblue;
   display: flex;
   justify-content: center;
   align-items: center;
