@@ -1,6 +1,7 @@
 import React from "react";
 import Sidebar from "./Sidebar";
 import styled from "styled-components";
+import background from "../images/background.svg";
 
 const Layout = ({ children }) => {
   const user = localStorage.getItem("profile");
@@ -18,6 +19,11 @@ const Layout = ({ children }) => {
 export default Layout;
 
 const LayoutContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  background-image: url(${background});
+  background-repeat: no-repeat;
+  background-size: cover;
   position: absolute;
   display: grid;
   grid-template-columns: 1fr 4fr;
