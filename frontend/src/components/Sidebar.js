@@ -20,7 +20,7 @@ const Sidebar = () => {
 
   return (
     <SidebarContainer>
-      <Logo src={require("../Logo_Aloha.svg").default} alt="Logo" />  
+      <Logo src={require("../Logo_Aloha.svg").default} alt="Logo" />
       {/* TODO: Set true back to "user", when ready. True is set to show the sidebar for further development */}
       {true ? (
         <>
@@ -52,8 +52,15 @@ const Logo = styled.img`
 
 const SidebarContainer = styled.div`
   width: 300px;
-  height: 100%;
-  background-color: #89b0ae;
+  height: 50%;
+  margin: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 105, 0.37);
+  backdrop-filter: blur(8.5px);
+  -webkit-backdrop-filter: blur(8.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  /* background-color: #89b0ae; */
   display: flex;
   flex-direction: column;
   align-items: center;
