@@ -4,8 +4,6 @@ import styled from "styled-components";
 import background from "../images/background.svg";
 
 const Layout = ({ children }) => {
-  const user = localStorage.getItem("profile");
-
   return (
     <LayoutContainer>
       <SidebarContainer>

@@ -1,19 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { deleteEvent, updateEvent } from "../../api";
 import { useHistory } from "react-router";
 import { MdLocationOn, MdAccessTime, MdPeople } from "react-icons/md";
+import { UserContext } from "../../App";
 
-const EventTile = ({ event, handleShowEvent }) => {
+const EventTile = ({ event, handleShowEvent, reload, setReload }) => {
   const history = useHistory();
   const [eventData, setEventData] = useState({ ...event });
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const { user } = useContext(UserContext);
   const isCreator = user?.id === event.creator;
 
-  const handleDelete = (id, event) => {
+  const handleDelete = (event, id) => {
     event.stopPropagation();
     deleteEvent(id);
     history.push("/overview");
+    setReload(!reload);
   };
 
   const handleJoin = (event) => {
@@ -52,16 +54,12 @@ const EventTile = ({ event, handleShowEvent }) => {
         </h4>
 
         <p>
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-          nonumy eirmod tempor invidunt ut labore et dolore magna
+          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+          dolore magna
         </p>
 
         <ButtonArea>
-          {isCreator && (
-            <Button onClick={(e) => handleDelete(eventData._id, event)}>
-              DELETE
-            </Button>
-          )}
+          {isCreator && <Button onClick={(event) => handleDelete(event, eventData._id)}>DELETE</Button>}
 
           {user && <Button onClick={handleJoin}>JOIN</Button>}
         </ButtonArea>

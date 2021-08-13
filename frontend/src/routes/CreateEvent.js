@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { createEvent } from "../api";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../App";
 
 const CreateEvent = () => {
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const { user } = useContext(UserContext);
   const history = useHistory();
   const InitialState = {
     creator: user.id,
@@ -75,14 +76,13 @@ const CreateEvent = () => {
           onChange={handleChange}
           required
         />
-        <styledButton>
+        <StyledButton>
           <button type="submit">Submit</button>
-        </styledButton>
-        
-          <button type="button" onClick={handleClear}>
-            Clear
-          </button>
-        
+        </StyledButton>
+
+        <button type="button" onClick={handleClear}>
+          Clear
+        </button>
       </InputForm>
     </>
   );
@@ -102,7 +102,7 @@ const InputField = styled.input`
   display: flex;
   justify-content: center;
   border: none;
-  `;
+`;
 
 const InputForm = styled.form`
   display: flex;
@@ -111,12 +111,10 @@ const InputForm = styled.form`
   margin: 50px 100px;
 `;
 
-
 //New styled components element to edit the look of the form buttons
-const styledButton = styled.button`
+const StyledButton = styled.button`
   background-color: blue;
   margin: 100px 0;
-
 `;
 
 //New styled component to edit the H1
@@ -125,6 +123,4 @@ const Title = styled.h1`
   flex-direction: column;
   align-items: center;
   text-align: center;
-
-
 `;

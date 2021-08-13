@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { deleteEvent, getSingleEvent, updateEvent } from "../api";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../App";
 
 const SingleEvent = () => {
   const history = useHistory();
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const { user } = useContext(UserContext);
   const [isCreator, setIsCreator] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [nameWoLogin, setNameWoLogin] = useState("");
@@ -65,7 +66,8 @@ const SingleEvent = () => {
     history.push("/overview");
   };
 
-  console.log("isCreator", isCreator);
+  console.log("isCreator (SingleEvent)", isCreator);
+  console.log("user (SingleEvent)", Boolean(user));
   return (
     <>
       <h1>Single Event</h1>

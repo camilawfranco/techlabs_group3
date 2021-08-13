@@ -1,28 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router";
+import { UserContext } from "../App";
 
 const Sidebar = () => {
   const history = useHistory();
-  const [user, setUser] = useState(null);
-  // const user = JSON.parse(localStorage.getItem("profile"));
+  const { user, setUser } = useContext(UserContext);
   const testLogout = () => {
     localStorage.removeItem("profile");
+    setUser(null);
   };
-  window.addEventListener("storage", () => console.log("Storage updated"));
 
-  // Update is not yet working
-  useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("profile")));
-    console.log("useEffect");
-  }, []);
-
+  console.log("user", user);
   return (
     <SidebarContainer>
       <Logo src={require("../Logo_Aloha.svg").default} alt="Logo" />
-      {/* TODO: Set true back to "user", when ready. True is set to show the sidebar for further development */}
-      {true ? (
+      {user ? (
         <>
           <Avatar onClick={() => history.push("/profile")}>
             {user?.name.charAt(0)}
@@ -31,14 +25,12 @@ const Sidebar = () => {
           <Navigation to="/profile">Profile</Navigation>
           <Navigation to="/overview">Overview</Navigation>
           <Navigation to="/calender">Calender</Navigation>
-          <Navigation to="/overview" onClick={testLogout}>
+          <Navigation to="/" onClick={testLogout}>
             Logout
           </Navigation>
         </>
       ) : (
-        <Navigation to="/" onClick={testLogout}>
-          Login
-        </Navigation>
+        <Navigation to="/">Login</Navigation>
       )}
     </SidebarContainer>
   );

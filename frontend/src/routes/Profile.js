@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
+import { UserContext } from "../App";
 
 const Profile = () => {
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const { user } = useContext(UserContext);
   const [infoMessage, setInfoMessage] = useState();
   const [changePassword, setChangePassword] = useState(false);
   const [profileData, setProfileData] = useState({
@@ -34,16 +35,10 @@ const Profile = () => {
       [event.currentTarget.name]: event.currentTarget.value,
     });
     console.log(event.currentTarget.name, event.currentTarget.value);
-    if (
-      event.currentTarget.name === "password" &&
-      event.currentTarget.value !== ""
-    ) {
+    if (event.currentTarget.name === "password" && event.currentTarget.value !== "") {
       setChangePassword(true);
     }
-    if (
-      event.currentTarget.name === "password" &&
-      event.currentTarget.value === ""
-    ) {
+    if (event.currentTarget.name === "password" && event.currentTarget.value === "") {
       setChangePassword(false);
     }
     setInfoMessage("");
@@ -64,20 +59,8 @@ const Profile = () => {
     <>
       <h1>Profile</h1>
       <Form onSubmit={handleSubmit}>
-        <TextField
-          type="text"
-          name="name"
-          id="name"
-          value={profileData.name}
-          onChange={handleChange}
-        />
-        <TextField
-          type="text"
-          name="email"
-          id="email"
-          value={profileData.email}
-          onChange={handleChange}
-        />
+        <TextField type="text" name="name" id="name" value={profileData.name} onChange={handleChange} />
+        <TextField type="text" name="email" id="email" value={profileData.email} onChange={handleChange} />
         <TextField
           type="password"
           name="password"

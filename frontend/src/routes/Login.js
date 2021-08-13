@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../App";
 
 const Login = () => {
   const history = useHistory();
+  const { user, setUser } = useContext(UserContext);
 
   // dummy login
   const dummyLogin = () => {
     history.push("/overview");
-    const user = {
+    const dummyUser = {
       name: "Christopher",
       email: "cw@web.de",
       id: "ChristopherTestID",
     };
-    localStorage.setItem("profile", JSON.stringify(user));
+    localStorage.setItem("profile", JSON.stringify(dummyUser));
+    setUser(dummyUser);
   };
 
   return (

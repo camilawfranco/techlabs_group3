@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import EventOverview from "../components/Events/EventOverview";
+import { UserContext } from "../App";
 
 const Overview = () => {
   const history = useHistory();
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const { user } = useContext(UserContext);
 
   const createEvent = () => {
     history.push("/newEvent");

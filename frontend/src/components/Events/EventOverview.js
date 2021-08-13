@@ -4,21 +4,18 @@ import EventTile from "./EventTile";
 import { getEvents } from "../../api";
 import { useHistory } from "react-router-dom";
 
-// Todo:
-// 1) Delete Post
-// 2) Open Tab with Data and be able to change it
-
 const EventOverview = () => {
   const history = useHistory();
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     getEvents().then((response) => {
       setEvents(response.data);
     });
     setIsLoading(false);
-  }, [window.location.href]);
+  }, [window.location.href, reload]);
 
   const handleShowEvent = async (id) => {
     console.log("id: ", id);
@@ -29,7 +26,15 @@ const EventOverview = () => {
     <EventOverviewContainer>
       {!isLoading ? (
         events.map((event, index) => {
-          return <EventTile key={index} event={event} handleShowEvent={handleShowEvent} />;
+          return (
+            <EventTile
+              key={index}
+              event={event}
+              handleShowEvent={handleShowEvent}
+              reload={reload}
+              setReload={setReload}
+            />
+          );
         })
       ) : (
         <p>loading..</p>
