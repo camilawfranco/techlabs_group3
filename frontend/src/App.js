@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Overview from "./routes/Overview";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Login from "./routes/Login";
+import LoginCW from "./routes/LoginCW";
 import Calender from "./routes/Calender";
 import Profile from "./routes/Profile";
 import CreateEvent from "./routes/CreateEvent";
@@ -23,6 +24,8 @@ function App() {
         <Layout>
           <Switch>
             <Route exact path="/" component={Login} />
+            <Route path="/test" component={LoginCW} />
+            {/* <Route exact path="/" component={LoginCW} /> */}
             <Route path="/event/:id" component={SingleEvent} />
             {user && (
               <>
