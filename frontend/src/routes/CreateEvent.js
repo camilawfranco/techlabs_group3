@@ -13,25 +13,39 @@ const CreateEvent = () => {
     place: "",
     time: "",
     participants: "",
-    id: "TestID",
   };
 
   const [eventData, setEventData] = useState(InitialState);
+  const [ID, setID] = useState("");
 
   const handleChange = (event) => {
     setEventData({ ...eventData, [event.currentTarget.name]: event.currentTarget.value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const participantsList = eventData.participants.split(", ");
     const uploadData = { ...eventData, participants: participantsList };
     console.log(uploadData);
-    createEvent(uploadData);
+    let ID = "";
+    await createEvent(uploadData).then((response) => {
+      ID = response.data._id;
+      copy(ID);
+    });
     setEventData(InitialState);
-    history.push("/overview");
+    history.push(`/event/${ID}`);
   };
 
+  const copy = (ID) => {
+    const el = document.createElement("input");
+    el.value = `http://localhost:3000/event/${ID}`;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+  };
+
+  console.log("ID outside", ID);
   const handleClear = () => {
     setEventData(InitialState);
   };
@@ -76,13 +90,10 @@ const CreateEvent = () => {
           onChange={handleChange}
           required
         />
-        <StyledButton>
-          <button type="submit">Submit</button>
-        </StyledButton>
-
-        <button type="button" onClick={handleClear}>
+        <StyledButton type="submit">Submit (&Copy Link)</StyledButton>
+        <StyledButton type="button" onClick={handleClear}>
           Clear
-        </button>
+        </StyledButton>
       </InputForm>
     </>
   );

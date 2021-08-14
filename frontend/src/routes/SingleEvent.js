@@ -10,12 +10,12 @@ const SingleEvent = () => {
   const [isCreator, setIsCreator] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [nameWoLogin, setNameWoLogin] = useState("");
+  const [copied, setCopied] = useState(false);
   const [eventData, setEventData] = useState({
     name: "",
     place: "",
     time: "",
     participants: "",
-    id: "TestID",
   });
   const eventId = window.location.href.split("/").pop();
 
@@ -51,7 +51,7 @@ const SingleEvent = () => {
   const handleJoin = (event) => {
     event.preventDefault();
     const updatedParticipants = [...eventData.participants];
-    const newParticipant = "";
+    // const newParticipant = "";
     if (user) {
       updatedParticipants.push(user?.name);
     } else {
@@ -59,11 +59,24 @@ const SingleEvent = () => {
         updatedParticipants.push(nameWoLogin);
       }
     }
+
     // newData => setState is not quick enough; updateEvent would run with old state
     const newData = { ...eventData, participants: updatedParticipants };
     setEventData({ ...eventData, participants: updatedParticipants });
     updateEvent(eventId, newData);
     history.push("/overview");
+  };
+
+  const handleCopyLink = () => {
+    const URL = window.location.href;
+    console.log("URL", URL);
+    const el = document.createElement("input");
+    el.value = URL;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+    setCopied(true);
   };
 
   console.log("isCreator (SingleEvent)", isCreator);
@@ -73,67 +86,72 @@ const SingleEvent = () => {
       <h1>Single Event</h1>
       {user && <button onClick={() => history.push("/overview")}>Back to Overview</button>}
       {!isLoading ? (
-        <InputForm onSubmit={handleSubmit}>
-          <InputField
-            disabled={!isCreator}
-            type="text"
-            name="name"
-            id="name"
-            value={eventData.name}
-            placeholder="Name of Event"
-            onChange={handleChange}
-            required
-          />
-          <InputField
-            type="text"
-            disabled={!isCreator}
-            name="place"
-            id="place"
-            value={eventData.place}
-            placeholder="Place of Event"
-            onChange={handleChange}
-            required
-          />
-          <InputField
-            type="text"
-            disabled={!isCreator}
-            name="time"
-            id="time"
-            value={eventData.time}
-            placeholder="Time of Event"
-            onChange={handleChange}
-            required
-          />
-          <InputField
-            type="text"
-            disabled={!isCreator}
-            name="participants"
-            id="participants"
-            value={eventData.participants}
-            placeholder="Participants"
-            onChange={handleChange}
-            required
-          />
-          {!user && (
+        <>
+          <InputForm onSubmit={handleSubmit}>
             <InputField
+              disabled={!isCreator}
               type="text"
               name="name"
-              id="id"
-              value={nameWoLogin}
-              placeholder="Enter Name to join Event"
-              onChange={handleNameWoLogin}
+              id="name"
+              value={eventData.name}
+              placeholder="Name of Event"
+              onChange={handleChange}
+              required
             />
-          )}
-          {isCreator && (
-            <>
-              <button type="submit">Save changes</button>
-              <button type="button" onClick={() => handleDelete(eventId)}>
-                Delete
-              </button>
-            </>
-          )}
+            <InputField
+              type="text"
+              disabled={!isCreator}
+              name="place"
+              id="place"
+              value={eventData.place}
+              placeholder="Place of Event"
+              onChange={handleChange}
+              required
+            />
+            <InputField
+              type="text"
+              disabled={!isCreator}
+              name="time"
+              id="time"
+              value={eventData.time}
+              placeholder="Time of Event"
+              onChange={handleChange}
+              required
+            />
+            <InputField
+              type="text"
+              disabled={!isCreator}
+              name="participants"
+              id="participants"
+              value={eventData.participants}
+              placeholder="Participants"
+              onChange={handleChange}
+              required
+            />
+            {!user && (
+              <InputField
+                type="text"
+                name="name"
+                id="id"
+                value={nameWoLogin}
+                placeholder="Enter Name to join Event"
+                onChange={handleNameWoLogin}
+              />
+            )}
+            {isCreator && (
+              <>
+                <button type="submit">Save changes</button>
+              </>
+            )}
+          </InputForm>
           <button onClick={handleJoin}>Join Meeting</button>
-        </InputForm>
+          {isCreator && (
+            <button type="button" onClick={() => handleDelete(eventId)}>
+              Delete
+            </button>
+          )}
+          <button onClick={handleCopyLink}>{copied ? "Link copied" : "Copy Link to Event"}</button>
+        </>
       ) : (
         <h1>Loading...</h1>
       )}

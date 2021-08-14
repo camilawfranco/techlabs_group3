@@ -1,22 +1,15 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import { deleteEvent, updateEvent } from "../../api";
+import { deleteEvent, updateEvent, getEvents } from "../../api";
 import { useHistory } from "react-router";
 import { MdLocationOn, MdAccessTime, MdPeople } from "react-icons/md";
 import { UserContext } from "../../App";
 
-const EventTile = ({ event, handleShowEvent, reload, setReload }) => {
+const EventTile = ({ event, handleShowEvent, setEvents }) => {
   const history = useHistory();
   const [eventData, setEventData] = useState({ ...event });
   const { user } = useContext(UserContext);
   const isCreator = user?.id === event.creator;
-
-  const handleDelete = (event, id) => {
-    event.stopPropagation();
-    deleteEvent(id);
-    history.push("/overview");
-    setReload(!reload);
-  };
 
   const handleJoin = (event) => {
     event.stopPropagation();
@@ -24,6 +17,16 @@ const EventTile = ({ event, handleShowEvent, reload, setReload }) => {
     const newData = { ...eventData, participants: newParticipantsList };
     setEventData({ ...newData });
     updateEvent(newData._id, newData);
+  };
+
+  const handleDelete = async (event, id) => {
+    console.log("id to delete", id);
+    event.stopPropagation();
+    deleteEvent(id).then(
+      getEvents().then((response) => {
+        setEvents(response.data);
+      })
+    );
   };
 
   return (
