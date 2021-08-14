@@ -1,12 +1,10 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { deleteEvent, updateEvent, getEvents } from "../../api";
-import { useHistory } from "react-router";
 import { MdLocationOn, MdAccessTime, MdPeople } from "react-icons/md";
 import { UserContext } from "../../App";
 
 const EventTile = ({ event, handleShowEvent, setEvents }) => {
-  const history = useHistory();
   const [eventData, setEventData] = useState({ ...event });
   const { user } = useContext(UserContext);
   const isCreator = user?.id === event.creator;
@@ -19,13 +17,16 @@ const EventTile = ({ event, handleShowEvent, setEvents }) => {
     updateEvent(newData._id, newData);
   };
 
-  const handleDelete = async (event, id) => {
+  const handleDelete = (event, id) => {
     console.log("id to delete", id);
     event.stopPropagation();
     deleteEvent(id).then(
-      getEvents().then((response) => {
-        setEvents(response.data);
-      })
+      // sometimes the getEvent function is executed before the old event is deleted => Timeout (run after 100ms)
+      setTimeout(() => {
+        getEvents().then((response) => {
+          setEvents(response.data);
+        });
+      }, 100)
     );
   };
 

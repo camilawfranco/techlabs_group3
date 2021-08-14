@@ -1,9 +1,12 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { UserContext } from "../App";
+import { deleteUser, updateUser } from "../api";
+import { useHistory } from "react-router-dom";
 
 const Profile = () => {
-  const { user } = useContext(UserContext);
+  const history = useHistory();
+  const { user, setUser } = useContext(UserContext);
   const [infoMessage, setInfoMessage] = useState();
   const [changePassword, setChangePassword] = useState(false);
   const [profileData, setProfileData] = useState({
@@ -12,6 +15,7 @@ const Profile = () => {
     password: "",
     confirmPW: "",
   });
+  console.log("profileData", profileData);
 
   // To do: PW check in backend => "best practice"
   const handleSubmit = (event) => {
@@ -19,10 +23,15 @@ const Profile = () => {
     if (!changePassword) {
       localStorage.setItem("profile", JSON.stringify(profileData));
       setInfoMessage("Successfully changed Profile Data");
+      //test id
+      const id = "6117bd002eff41223c5d1e5d";
+      updateUser(id, profileData);
     }
     if (changePassword && profileData.password === profileData.confirmPW) {
       localStorage.setItem("profile", JSON.stringify(profileData));
       setInfoMessage("Successfully changed Profile Data and Password");
+      const id = "6117bd002eff41223c5d1e5d";
+      updateUser(id, profileData);
     }
     if (changePassword && profileData.password !== profileData.confirmPW) {
       setInfoMessage("Passwords don´t match");
@@ -55,6 +64,15 @@ const Profile = () => {
     setInfoMessage("");
   };
 
+  const handleDeleteAccount = () => {
+    console.log("Userid (still dummy)", user.id);
+    // currently the login isn´t working, but you can still create a user, delete and update it
+    const id = "6117bd002eff41223c5d1e5d";
+    deleteUser(id);
+    setUser(null);
+    history.push("/");
+  };
+
   return (
     <>
       <h1>Profile</h1>
@@ -75,6 +93,7 @@ const Profile = () => {
             name="confirmPW"
             id="confirmPW"
             value={profileData.confirmPW}
+            placeholder="*****"
             onChange={handleChange}
           />
         )}
@@ -83,6 +102,9 @@ const Profile = () => {
           <Button type="submit">Submit</Button>
           <Button type="button" onClick={handleAbort}>
             Abort
+          </Button>
+          <Button type="button" onClick={handleDeleteAccount}>
+            Delete Account
           </Button>
         </ButtonWrapper>
       </Form>

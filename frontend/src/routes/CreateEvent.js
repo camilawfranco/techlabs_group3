@@ -16,7 +16,6 @@ const CreateEvent = () => {
   };
 
   const [eventData, setEventData] = useState(InitialState);
-  const [ID, setID] = useState("");
 
   const handleChange = (event) => {
     setEventData({ ...eventData, [event.currentTarget.name]: event.currentTarget.value });
@@ -45,7 +44,6 @@ const CreateEvent = () => {
     document.body.removeChild(el);
   };
 
-  console.log("ID outside", ID);
   const handleClear = () => {
     setEventData(InitialState);
   };

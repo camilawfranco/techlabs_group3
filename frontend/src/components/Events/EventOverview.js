@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import EventTile from "./EventTile";
-import { getEvents, deleteEvent } from "../../api";
+import { getEvents } from "../../api";
 import { useHistory } from "react-router-dom";
 
 const EventOverview = () => {
@@ -9,36 +9,23 @@ const EventOverview = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const getEventData = () => {
-    getEvents().then((response) => {
-      setEvents(response.data);
-    });
-  };
-
   useEffect(() => {
     getEvents().then((response) => {
       setEvents(response.data);
     });
     setIsLoading(false);
-  }, [window.location.href]);
+  }, []);
 
   const handleShowEvent = async (id) => {
     console.log("id: ", id);
     history.push(`/event/${id}`);
   };
 
-  const handleDelete = async (event, id) => {
-    console.log("id to delete", id);
-    event.stopPropagation();
-    deleteEvent(id).then(getEventData());
-  };
-
-  console.log("events", events);
-
   return (
     <EventOverviewContainer>
       {!isLoading ? (
         events.map((event, index) => {
+          console.log(event._id);
           return <EventTile key={event._id} event={event} handleShowEvent={handleShowEvent} setEvents={setEvents} />;
         })
       ) : (

@@ -1,16 +1,16 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
 import { UserContext } from "../App";
 import { MdVisibility } from "react-icons/md";
 import { MdVisibilityOff } from "react-icons/md";
+import { createUser, getUser } from "../api";
 
 const LoginCW = () => {
-  const history = useHistory();
   const { user, setUser } = useContext(UserContext);
   const [registered, setRegistered] = useState(true);
   const [personalData, setPersonalData] = useState({ name: "", email: "", password: "", confirmPW: "" });
   const [visibility, setVisibility] = useState(false);
+  const [message, setMessage] = useState("");
 
   const switchMode = (event) => {
     event.preventDefault();
@@ -19,6 +19,7 @@ const LoginCW = () => {
 
   const handleChange = (event) => {
     setPersonalData({ ...personalData, [event.currentTarget.name]: event.currentTarget.value });
+    setMessage("");
   };
 
   const handleShowPassword = () => {
@@ -27,18 +28,47 @@ const LoginCW = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (registered) {
+      console.log("login");
+      // test with selfselected ID
+      const id = "6117c3b48b26e4339092e7b4";
+      getUser(id).then((response) => {
+        console.log("response.data", response.data);
+        setUser(response.data);
+      });
+    } else if (!registered) {
+      if (personalData.confirmPW === personalData.password) {
+        console.log("register user");
+        createUser(personalData);
+      } else {
+        console.log("PW don´t match");
+        setMessage("Passwords don´t match");
+      }
+    }
   };
+
+  console.log(user);
 
   return (
     <Window>
-      <LoginWindow>
+      <LoginWindow onSubmit={handleSubmit}>
         {!registered && (
-          <InputField name="name" id="name" value={personalData.name} onChange={handleChange} placeholder="Name" />
+          <InputField
+            type="text"
+            autoFocus
+            name="name"
+            id="name"
+            required
+            value={personalData.name}
+            onChange={handleChange}
+            placeholder="Name"
+          />
         )}
         <InputField
           type="email"
           name="email"
           id="email"
+          required
           value={personalData.email}
           onChange={handleChange}
           placeholder="Email"
@@ -47,6 +77,8 @@ const LoginCW = () => {
           type="password"
           name="password"
           id="password"
+          required
+          minLength="7"
           value={personalData.password}
           onChange={handleChange}
           placeholder="Password"
@@ -57,6 +89,8 @@ const LoginCW = () => {
               type={visibility ? "text" : "password"}
               name="confirmPW"
               id="confirmPW"
+              required
+              minLength="7"
               value={personalData.confirmPW}
               onChange={handleChange}
               placeholder="ConfirmPassword"
@@ -72,6 +106,7 @@ const LoginCW = () => {
           </Button>
           <Button type="submit">{registered ? "Login" : "Register"}</Button>
         </ButtonBox>
+        {message !== "" && <InfoText>{message}</InfoText>}
       </LoginWindow>
     </Window>
   );
@@ -82,7 +117,6 @@ export default LoginCW;
 const Window = styled.div`
   height: 100%;
   width: 100%;
-  background: red;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -97,6 +131,7 @@ const LoginWindow = styled.form`
   width: 50%;
   padding: 12px;
   background: grey;
+  border-radius: 10px;
 `;
 
 const InputField = styled.input``;
@@ -108,10 +143,13 @@ const ButtonBox = styled.div`
   flex-direction: row;
   justify-content: space-evenly;
   width: 100%;
-  background: blue;
   gap: 12px;
 `;
 
 const Button = styled.button`
   width: 100%;
+`;
+
+const InfoText = styled.p`
+  text-align: center;
 `;

@@ -1,9 +1,11 @@
-const express = require ('express')
+const express = require('express')
 const User = require('../models/user')
 const router = new express.Router()
 
 router.post('/users', async (req, res) => {
-    const user = new User(req.body)
+    console.log("reached"); 
+    const user = new User(req.body);    
+    console.log("req.body",req.body);
     try {
         const user = new User(req.body)
         user.save().then(()=> {res.send(user)}
@@ -35,6 +37,7 @@ router.get('/users', async (req, res) => {
 })
 router.get('/users/:id', async (req, res) => {
     const _id = req.params.id
+    console
     try {
         const user = await User.findById(_id)
         if (!user) {
