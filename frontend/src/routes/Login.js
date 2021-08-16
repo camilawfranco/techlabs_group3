@@ -45,8 +45,9 @@ const Button = styled.button`
       width: 200px;
       font-size: 20px;
       background-color: white;
-      border-color: white; 
-      border-radius: 10px;        
+      border: solid, white; 
+      border-radius: 10px;
+      border-style: none;        
 `
 const BottonBox = styled.div`
       display: flex;
