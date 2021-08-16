@@ -6,10 +6,6 @@ const Login = () => {
   const history = useHistory();
 
   return (
-    /*<div>
-      <h1>Login</h1>
-      <button onClick={dummyLogin}>Login: go to Overview</button>
-    </div>*/
          <LoginWindow>
           <form>
             <Fenster>
@@ -24,7 +20,6 @@ const Login = () => {
             </BottonBox>
           </form>
         </LoginWindow>
-
   );
 };
 
