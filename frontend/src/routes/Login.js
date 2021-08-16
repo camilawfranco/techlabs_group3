@@ -80,4 +80,5 @@ const InputField = styled.input`
       text-align: center;
       font-color: #555b6e; 
       font-size: medium;
+      outline:none;
 `
