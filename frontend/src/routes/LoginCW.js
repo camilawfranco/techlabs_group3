@@ -136,7 +136,12 @@ const LoginWindow = styled.form`
 
 const InputField = styled.input``;
 
-const VisibilityButton = styled.div``;
+const VisibilityButton = styled.div`
+  position: relative;
+  right: 24px;
+  align-self: center;
+  z-index: 1;
+`;
 
 const ButtonBox = styled.div`
   display: flex;

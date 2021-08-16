@@ -4,6 +4,10 @@ import { deleteEvent, getSingleEvent, updateEvent } from "../api";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../App";
 
+// Datepicker for selecting the Dates
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 const SingleEvent = () => {
   const history = useHistory();
   const { user } = useContext(UserContext);
@@ -12,16 +16,22 @@ const SingleEvent = () => {
   const [nameWoLogin, setNameWoLogin] = useState("");
   const [copied, setCopied] = useState(false);
   const [eventData, setEventData] = useState({
-    name: "",
+    title: "",
     place: "",
     time: "",
     participants: "",
+    startDate: new Date(),
+    endDate: new Date(),
   });
   const eventId = window.location.href.split("/").pop();
 
   useEffect(() => {
     getSingleEvent(eventId).then((response) => {
-      setEventData(response.data);
+      setEventData({
+        ...response.data,
+        startDate: new Date(response.data.startDate),
+        endDate: new Date(response.data.endDate),
+      });
       setIsLoading(false);
       if (response.data.creator === user?.id) {
         setIsCreator(true);
@@ -40,7 +50,8 @@ const SingleEvent = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     updateEvent(eventId, eventData);
-    history.push("/overview");
+    // history.push("/overview");
+    history.goBack();
   };
 
   const handleDelete = (id) => {
@@ -81,18 +92,20 @@ const SingleEvent = () => {
 
   console.log("isCreator (SingleEvent)", isCreator);
   console.log("user (SingleEvent)", Boolean(user));
+  console.log("start date geändert", eventData);
+
   return (
     <>
       <h1>Single Event</h1>
-      {user && <button onClick={() => history.push("/overview")}>Back to Overview</button>}
+      {user && <button onClick={() => history.goBack()}>Go back</button>}
       {!isLoading ? (
         <>
           <InputForm onSubmit={handleSubmit}>
             <InputField
               disabled={!isCreator}
               type="text"
-              name="name"
-              id="name"
+              name="title"
+              id="title"
               value={eventData.name}
               placeholder="Name of Event"
               onChange={handleChange}
@@ -128,6 +141,28 @@ const SingleEvent = () => {
               onChange={handleChange}
               required
             />
+            <DatePicker
+              disabled={!isCreator}
+              showTimeSelect
+              dateFormat="d/M/yy hh:mm aa"
+              selected={eventData.startDate}
+              selectsStart
+              startDate={eventData.startDate}
+              endDate={eventData.endDate}
+              onChange={(date) => setEventData({ ...eventData, startDate: date }, console.log("selected date", date))}
+            />
+            <DatePicker
+              disabled={!isCreator}
+              showTimeSelect
+              dateFormat="d/M/yy hh:mm aa"
+              selected={eventData.endDate}
+              selectsStart
+              startDate={eventData.startDate}
+              endDate={eventData.endDate}
+              minDate={eventData.startDate}
+              onChange={(date) => setEventData({ ...eventData, endDate: date })}
+            />
+
             {!user && (
               <InputField
                 type="text"

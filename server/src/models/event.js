@@ -4,7 +4,7 @@ const Event = mongoose.model("Event", {
   creator: {
     type: String,
   },
-  name: {
+  title: {
     type: String,
   },
   place: {
@@ -18,6 +18,13 @@ const Event = mongoose.model("Event", {
       type: String,
     },
   ],
+  startDate: {
+    type: Date,
+  },
+  endDate: {
+    type: Date,
+  },
+
   // participants: [
   //   {
   //     name: {

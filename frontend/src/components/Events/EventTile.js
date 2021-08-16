@@ -33,7 +33,7 @@ const EventTile = ({ event, handleShowEvent, setEvents }) => {
   return (
     <EventTileContainer onClick={() => handleShowEvent(eventData._id)}>
       <EventTitleHeader>
-        <h2>{eventData.name}</h2>
+        <h2>{eventData.title}</h2>
       </EventTitleHeader>
 
       <EventTitleContent>

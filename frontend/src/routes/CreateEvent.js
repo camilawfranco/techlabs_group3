@@ -4,14 +4,20 @@ import { createEvent } from "../api";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../App";
 
+// Datepicker for selecting the Dates
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 const CreateEvent = () => {
   const { user } = useContext(UserContext);
   const history = useHistory();
   const InitialState = {
     creator: user.id,
-    name: "",
+    title: "",
     place: "",
     time: "",
+    startDate: new Date(),
+    endDate: new Date(),
     participants: "",
   };
 
@@ -54,8 +60,8 @@ const CreateEvent = () => {
       <InputForm onSubmit={handleSubmit}>
         <InputField
           type="text"
-          name="name"
-          id="name"
+          name="title"
+          id="title"
           value={eventData.name}
           placeholder="Name of Event"
           onChange={handleChange}
@@ -86,6 +92,27 @@ const CreateEvent = () => {
           value={eventData.participants}
           placeholder="Participants"
           onChange={handleChange}
+          required
+        />
+        <DatePicker
+          showTimeSelect
+          dateFormat="d/M/yy hh:mm aa"
+          selected={eventData.startDate}
+          selectsStart
+          startDate={eventData.startDate}
+          endDate={eventData.endDate}
+          onChange={(date) => setEventData({ ...eventData, startDate: date }, console.log("selected date", date))}
+          required
+        />
+        <DatePicker
+          showTimeSelect
+          dateFormat="d/M/yy hh:mm aa"
+          selected={eventData.endDate}
+          selectsStart
+          startDate={eventData.startDate}
+          endDate={eventData.endDate}
+          minDate={eventData.startDate}
+          onChange={(date) => setEventData({ ...eventData, endDate: date })}
           required
         />
         <StyledButton type="submit">Submit (&Copy Link)</StyledButton>
