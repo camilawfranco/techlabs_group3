@@ -44,7 +44,7 @@ const Logo = styled.img`
 
 const SidebarContainer = styled.div`
   width: 300px;
-  height: 50%;
+  height: 82%;
   margin: 20px;
   background: rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 105, 0.37);
