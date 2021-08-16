@@ -13,10 +13,10 @@ const Login = () => {
          <LoginWindow>
           <form>
             <Fenster>
-            <input id="loginField" type="text" name="login" placeholder="Username or email" />
+            <InputField input id="loginField" type="text" name="login" placeholder="Username or email" />
             </Fenster>
             <Fenster>
-            <input id="psdField" type="password" name="password" placeholder="Password" />
+            <InputField input id="psdField" type="password" name="password" placeholder="Password" />
             </Fenster>
             <BottonBox>
               <Button id="submitBtn" type="submit" name="submit">Log in</Button>
@@ -32,39 +32,52 @@ const Login = () => {
 export default Login;
 const LoginWindow = styled.div`
       display: flex; 
-      border-radius: 10px; white;
+      border-radius: 10px, white;
       flex-direction: column;
       justify-content: center;
-      background-color: grey;
+      background: #89b0ae;
       align-items: center;
       height: 100vh;
 `
+
 const Button = styled.button`
       text-align: center;
       height: 40px;
       width: 200px;
-      font-size: 20px;
       background-color: white;
       border: solid, white; 
       border-radius: 10px;
-      border-style: none;        
+      border-style: none;
+      font-color: #555b6e; 
+      font-size: medium;
 `
+
 const BottonBox = styled.div`
       display: flex;
       flex-direction: row;
-      gap: 15px;
+      gap: 16px;
       margin: 5px;
       border-radius: 10px; 
-      border-color: white; 
+      border-color: white;
 `      
+
 const Fenster = styled.div`
       text-align: center;
       height: 40px;
       width: 410px;
+      font-color: #555b6e; 
       font-size: 20px;
       border-style: solid;
       background-color: white;
       border-color: white; 
+      border-radius: 10px;   
       margin: 5px; 
-      border-radius: 10px;
+`
+
+const InputField = styled.input`
+      border-style: solid;
+      border-color: white;
+      text-align: center;
+      font-color: #555b6e; 
+      font-size: medium;
 `
