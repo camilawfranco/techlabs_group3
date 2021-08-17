@@ -10,10 +10,10 @@ const Login = () => {
             <form>
               <InputField input id="loginField" type="text" name="login" placeholder="Username or email" />
               <InputField input id="psdField" type="password" name="password" placeholder="Password" /> 
-              <BottonBox>
+              <ButtonBox>
               <Button id="submitBtn" type="submit" name="submit">Log in</Button>
               <Button id="registerBtn" type="submit" name="submit">Register</Button>
-              </BottonBox>
+              </ButtonBox>
             </form>
         </LoginWindow>
   );
@@ -44,7 +44,7 @@ const InputField = styled.input`
       width: 510px;
 `
 
-const BottonBox = styled.div`
+const ButtonBox = styled.div`
       display: flex;
       flex-direction: row;
       gap: 5px;
