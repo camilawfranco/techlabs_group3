@@ -7,38 +7,59 @@ const Login = () => {
 
   return (
          <LoginWindow>
-          <form>
-            <Fenster>
-            <InputField input id="loginField" type="text" name="login" placeholder="Username or email" />
-            </Fenster>
-            <Fenster>
-            <InputField input id="psdField" type="password" name="password" placeholder="Password" />
-            </Fenster>
-            <BottonBox>
+            <form>
+              <InputField input id="loginField" type="text" name="login" placeholder="Username or email" />
+              <InputField input id="psdField" type="password" name="password" placeholder="Password" /> 
+              <BottonBox>
               <Button id="submitBtn" type="submit" name="submit">Log in</Button>
               <Button id="registerBtn" type="submit" name="submit">Register</Button>
-            </BottonBox>
-          </form>
+              </BottonBox>
+            </form>
         </LoginWindow>
   );
 };
 
-
 export default Login;
 const LoginWindow = styled.div`
-      display: flex; 
-      border-radius: 10px, white;
+      display: flex;
       flex-direction: column;
-      justify-content: center;
-      background: #89b0ae;
       align-items: center;
+      border-radius: 10px;
+      background: #89b0ae;
       height: 100vh;
+             
+`
+const InputField = styled.input`
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-style: solid;
+      border-color: white;
+      border-radius: 10px;
+      text-align: center;
+      font-color: #555b6e; 
+      font-size: medium;
+      outline: none;
+      height: 40px;
+      width: 510px;
 `
 
+const BottonBox = styled.div`
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+      margin: 5px;
+      border-radius: 10px; 
+      border-color: white; 
+`   
+
 const Button = styled.button`
+      display: flex;
+      justify-content: center;
+      align-items: center;
       text-align: center;
       height: 40px;
-      width: 200px;
+      width: 180px;
       background-color: white;
       border: solid, white; 
       border-radius: 10px;
@@ -47,33 +68,4 @@ const Button = styled.button`
       font-size: medium;
 `
 
-const BottonBox = styled.div`
-      display: flex;
-      flex-direction: row;
-      gap: 16px;
-      margin: 5px;
-      border-radius: 10px; 
-      border-color: white;
-`      
-
-const Fenster = styled.div`
-      text-align: center;
-      height: 40px;
-      width: 410px;
-      font-color: #555b6e; 
-      font-size: 20px;
-      border-style: solid;
-      background-color: white;
-      border-color: white; 
-      border-radius: 10px;   
-      margin: 5px; 
-`
-
-const InputField = styled.input`
-      border-style: solid;
-      border-color: white;
-      text-align: center;
-      font-color: #555b6e; 
-      font-size: medium;
-      outline:none;
-`
+   
