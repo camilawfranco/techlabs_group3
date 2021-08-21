@@ -4,11 +4,13 @@ import { UserContext } from "../App";
 import { MdVisibility } from "react-icons/md";
 import { MdVisibilityOff } from "react-icons/md";
 import { createUser, getUser } from "../api";
+import { useHistory } from "react-router";
 
 const LoginCW = () => {
+  const history = useHistory();
   const { user, setUser } = useContext(UserContext);
   const [registered, setRegistered] = useState(true);
-  const [personalData, setPersonalData] = useState({ name: "", email: "", password: "", confirmPW: "" });
+  const [personalData, setPersonalData] = useState({ name: "", email: "", password: "", confirmPW: "", id: "" });
   const [visibility, setVisibility] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -30,12 +32,15 @@ const LoginCW = () => {
     event.preventDefault();
     if (registered) {
       console.log("login");
-      // test with selfselected ID
-      const id = "6117c3b48b26e4339092e7b4";
-      getUser(id).then((response) => {
-        console.log("response.data", response.data);
-        setUser(response.data);
-      });
+      // dummy login
+      setUser({name: "Christopher", email: "cw@web.de", id: "TEST_ID"})
+      history.push('/overview')
+      // // test with selfselected ID
+      // const id = "6117c3b48b26e4339092e7b4";
+      // // getUser(id).then((response) => {
+      // //   console.log("response.data", response.data);
+      // //   setUser(response.data);
+      // // });
     } else if (!registered) {
       if (personalData.confirmPW === personalData.password) {
         console.log("register user");
