@@ -26,7 +26,14 @@ const EventOverview = () => {
       {!isLoading ? (
         events.map((event, index) => {
           console.log(event._id);
-          return <EventTile key={event._id} event={event} handleShowEvent={handleShowEvent} setEvents={setEvents} />;
+          return (
+            <EventTile
+              key={event._id}
+              event={event}
+              handleShowEvent={handleShowEvent}
+              setEvents={setEvents}
+            />
+          );
         })
       ) : (
         <p>loading..</p>
@@ -40,4 +47,8 @@ export default EventOverview;
 const EventOverviewContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+
+  @media screen and (max-width: 1600px) {
+    grid-template-columns: auto;
+  }
 `;
