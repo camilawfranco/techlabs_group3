@@ -1,21 +1,25 @@
-import React from "react";
+import React, {useState, useContext} from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import { UserContext } from "../App";
 
 const Login = () => {
   const history = useHistory();
+  const { user, setUser } = useContext(UserContext);
+
+  const handleLogin = (event) => {
+      event.preventDefault();
+      setUser({ name: "Christopher", email: "cw@web.de", id: "TEST_ID"});
+      history.push('/overview');
+  }
 
   return (
          <LoginWindow>
             <form>
-            <div>
               <InputField input id="loginField" type="text" name="login" placeholder="Username or email" />
-            </div>
-            <div>
               <InputField input id="psdField" type="password" name="password" placeholder="Password" /> 
-            </div>
               <ButtonBox>
-              <Button id="submitBtn" type="submit" name="submit">Log in</Button>
+              <Button id="submitBtn" type="submit" name="submit" onClick={handleLogin}>Log in</Button>
               <Button id="registerBtn" type="submit" name="submit">Register</Button>
               </ButtonBox>
             </form>
@@ -75,4 +79,3 @@ const Button = styled.button`
       font-color: #555b6e; 
       font-size: medium;
 `;
-   
