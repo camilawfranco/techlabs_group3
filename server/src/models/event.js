@@ -25,6 +25,12 @@ const Event = mongoose.model("Event", {
     type: Date,
   },
 
+owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+
+    },
   // participants: [
   //   {
   //     name: {

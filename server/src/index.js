@@ -4,7 +4,6 @@ const cors = require("cors");
 // import cors from "cors";
 
 const userRouter = require("./routers/user");
-const taskRouter = require("./routers/task");
 const eventRouter = require("./routers/event");
 
 const app = express();
@@ -14,19 +13,20 @@ app.use(express.json());
 app.use(cors());
 
 app.use(userRouter);
-app.use(taskRouter);
 app.use(eventRouter);
 
 app.listen(port, () => {
   console.log("Server is up on port " + port);
 });
-const bcrypts = require("bcryptjs");
-const myFunction = async () => {
-  const password = "Red1234!";
-  const hashedPassword = await bcrypts.hash(password, 8);
-  console.log(password);
-  console.log(hashedPassword);
-  const isMatch = await bcrypts.compare("red1234!", hashedPassword);
-  console.log(isMatch);
-};
-myFunction();
+const User = require('./models/user')
+const Event = require('./models/event')
+const main = async () => {
+ 
+
+  const user = await User.findById('611ce2322afce715f0137c88')
+  await user.populate('myevent').execPopulate()
+  console.log(user.myevent)
+
+}
+main()
+
