@@ -121,13 +121,16 @@ const Form = styled.form`
 
 const TextField = styled.input`
   height: 25px;
-  width: 300px;
+  width: 350px;
   border-radius: 5px;
   margin: 5px 0;
-  background-color: lightgray;
-
+  background-color: #F0F0F0;
+  border-radius: 5px;
+  border-style: solid;
+  border-color: #F0F0F0;
   color: steelblue;
   font-size: medium;
+  outline: none;
 `;
 
 const ButtonWrapper = styled.div`
@@ -136,19 +139,22 @@ const ButtonWrapper = styled.div`
 `;
 
 const Button = styled.button`
-  width: 150px;
+  width: 115px;
   height: 25px;
   border-radius: 5px;
-  background-color: lightgray;
+  border-style: solid;
+  border-color: #F0F0F0;
+  background-color: #F0F0F0;
   margin-right: 5px;
   text-decoration: none;
   color: black;
   display: flex;
   justify-content: center;
   align-items: center;
+  outline: none;
   &:hover {
     background: grey;
-    color: lightgray;
+    color: #F0F0F0;
     border-radius: 10px;
   }
 `;
