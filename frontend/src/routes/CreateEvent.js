@@ -127,17 +127,19 @@ const CreateEvent = () => {
 export default CreateEvent;
 
 const InputField = styled.input`
-  padding: 10px 10px;
-  border-radius: 50%;
-  width: 400px;
-  height: 50px;
-  border-radius: 10px;
-  background-color: lightgray;
-  margin: 5px 0;
-  text-decoration: none;
   display: flex;
   justify-content: center;
-  border: none;
+  align-items: center;
+  border-style: solid;
+  border-color: #F0F0F0;
+  border-radius: 10px;
+  text-align: center;
+  font-color: #555b6e; 
+  font-size: medium;
+  outline: none;
+  height: 40px;
+  width: 410px;
+  margin: 5px;
 `;
 
 const InputForm = styled.form`
@@ -149,14 +151,22 @@ const InputForm = styled.form`
 
 //New styled components element to edit the look of the form buttons
 const StyledButton = styled.button`
-  background-color: blue;
-  margin: 100px 0;
+  margin: 50px 0;
+  color: black;
+  height: 30px;
+  width: 210px;
+  margin: 5px;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #F0F0F0;
 `;
 
 //New styled component to edit the H1
-const Title = styled.h1`
+  const Title = styled.h1`
   color: black;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  margin-top: 100px;
 `;
+
