@@ -146,6 +146,7 @@ const Button = styled.button`
   border-color: #F0F0F0;
   background-color: #F0F0F0;
   margin-right: 5px;
+  margin-top: 5px;
   text-decoration: none;
   color: black;
   display: flex;
