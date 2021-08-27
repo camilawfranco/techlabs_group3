@@ -115,10 +115,10 @@ const CreateEvent = () => {
           onChange={(date) => setEventData({ ...eventData, endDate: date })}
           required
         />
+        <ButtonBox>
         <StyledButton type="submit">Submit (&Copy Link)</StyledButton>
-        <StyledButton type="button" onClick={handleClear}>
-          Clear
-        </StyledButton>
+        <StyledButton type="button" onClick={handleClear}>Clear</StyledButton>
+        </ButtonBox>
       </InputForm>
     </>
   );
@@ -151,15 +151,14 @@ const InputForm = styled.form`
 
 //New styled components element to edit the look of the form buttons
 const StyledButton = styled.button`
-  margin: 50px 0;
   color: black;
   height: 30px;
-  width: 210px;
+  width: 190px;
   margin: 5px;
   border-radius: 10px;
   border-style: solid;
   border-color: #F0F0F0;
-    &:hover {
+  &:hover {
   background: grey;
   color: lightgray;
   border-radius: 10px;
@@ -176,3 +175,8 @@ const StyledButton = styled.button`
   margin-top: 100px;
 `;
 
+  const ButtonBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
