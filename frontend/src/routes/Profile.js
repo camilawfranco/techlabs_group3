@@ -75,7 +75,11 @@ const Profile = () => {
 
   return (
     <>
-      <h1>Profile</h1>
+      <h1 style={{align: "center"}}>Profile</h1>
+      <Avatar onClick={() => history.push("/profile")}>
+            {user?.name.charAt(0)}
+            {user?.name.charAt(1).toUpperCase()}
+      </Avatar>
       <Form onSubmit={handleSubmit}>
         <TextField type="text" name="name" id="name" value={profileData.name} onChange={handleChange} />
         <TextField type="text" name="email" id="email" value={profileData.email} onChange={handleChange} />
@@ -117,6 +121,24 @@ export default Profile;
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+`;
+
+const Avatar = styled.div`
+  background: grey;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 40px;
+  border-radius: 50%;
+  font-size: 50px;
+  font-weight: bold;
+  color: lightblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const TextField = styled.input`
@@ -155,8 +177,7 @@ const Button = styled.button`
   outline: none;
   &:hover {
     background: grey;
-    color: #F0F0F0;
-    border-radius: 10px;
+    border-color: grey;
   }
 `;
 
