@@ -80,6 +80,7 @@ const Button = styled.button`
       font-size: medium;
       &:hover {
       background: grey;
-      border-color: grey;
+      color: lightgray;
+      border-radius: 10px;
       }
 `;
