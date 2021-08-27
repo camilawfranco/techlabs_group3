@@ -78,4 +78,8 @@ const Button = styled.button`
       border-style: none;
       font-color: #555b6e; 
       font-size: medium;
+      &:hover {
+      background: grey;
+      border-color: grey;
+      }
 `;
