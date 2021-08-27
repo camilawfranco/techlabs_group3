@@ -175,9 +175,11 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   outline: none;
-  &:hover {
-    background: grey;
-    border-color: grey;
+   &:hover {
+  background: grey;
+  color: lightgray;
+  border-radius: 10px;
+  border-color: grey;
   }
 `;
 
