@@ -24,6 +24,7 @@ const Sidebar = () => {
             {user?.displayName?.charAt(0)}
             {user?.displayName?.charAt(1).toUpperCase()}
           </Avatar>
+          <Navigation to="/newEvent">New Event</Navigation>
           <Navigation to="/profile">Profile</Navigation>
           <Navigation to="/overview">Overview</Navigation>
           <Navigation to="/calender">Calender</Navigation>
@@ -45,8 +46,9 @@ const Logo = styled.img`
 `;
 
 const SidebarContainer = styled.div`
+  position: fixed;
   width: 300px;
-  height: 82%;
+  min-height: 620px;
   margin: 20px;
   background: rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 105, 0.37);

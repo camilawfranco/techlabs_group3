@@ -108,7 +108,7 @@ const Profile = () => {
         )}
         {infoMessage && <InfoBox>{infoMessage}</InfoBox>}
         <ButtonWrapper>
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Change</Button>
           <Button type="button" onClick={handleAbort}>
             Abort
           </Button>

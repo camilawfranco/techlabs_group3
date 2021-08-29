@@ -28,7 +28,9 @@ const LayoutContainer = styled.div`
   height: 100%;
 `;
 
-const SidebarContainer = styled.div``;
+const SidebarContainer = styled.div`
+  height: 100vh;
+`;
 
 const ContentContainer = styled.div`
   margin-left: 10px;

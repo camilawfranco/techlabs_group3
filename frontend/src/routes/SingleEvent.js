@@ -18,7 +18,6 @@ const SingleEvent = () => {
   const [eventData, setEventData] = useState({
     title: "",
     place: "",
-    time: "",
     participants: "",
     startDate: new Date(),
     endDate: new Date(),
@@ -33,7 +32,7 @@ const SingleEvent = () => {
         endDate: new Date(response.data.endDate),
       });
       setIsLoading(false);
-      if (response.data.creator === user?.id) {
+      if (response.data.creator === user?.uid) {
         setIsCreator(true);
       }
     });
@@ -75,7 +74,6 @@ const SingleEvent = () => {
     const newData = { ...eventData, participants: updatedParticipants };
     setEventData({ ...eventData, participants: updatedParticipants });
     updateEvent(eventId, newData);
-    history.push("/overview");
   };
 
   const handleCopyLink = () => {
@@ -95,8 +93,9 @@ const SingleEvent = () => {
   console.log("start date geändert", eventData);
 
   return (
-    <>
+    <Window>
       <h1>Single Event</h1>
+
       {!isLoading ? (
         <>
           <InputForm onSubmit={handleSubmit}>
@@ -105,7 +104,7 @@ const SingleEvent = () => {
               type="text"
               name="title"
               id="title"
-              value={eventData.name}
+              value={eventData.title}
               placeholder="Name of Event"
               onChange={handleChange}
               required
@@ -123,16 +122,6 @@ const SingleEvent = () => {
             <InputField
               type="text"
               disabled={!isCreator}
-              name="time"
-              id="time"
-              value={eventData.time}
-              placeholder="Time of Event"
-              onChange={handleChange}
-              required
-            />
-            <InputField
-              type="text"
-              disabled={!isCreator}
               name="participants"
               id="participants"
               value={eventData.participants}
@@ -140,28 +129,29 @@ const SingleEvent = () => {
               onChange={handleChange}
               required
             />
-            <DatePicker
-              disabled={!isCreator}
-              showTimeSelect
-              dateFormat="d/M/yy hh:mm aa"
-              selected={eventData.startDate}
-              selectsStart
-              startDate={eventData.startDate}
-              endDate={eventData.endDate}
-              onChange={(date) => setEventData({ ...eventData, startDate: date }, console.log("selected date", date))}
-            />
-            <DatePicker
-              disabled={!isCreator}
-              showTimeSelect
-              dateFormat="d/M/yy hh:mm aa"
-              selected={eventData.endDate}
-              selectsStart
-              startDate={eventData.startDate}
-              endDate={eventData.endDate}
-              minDate={eventData.startDate}
-              onChange={(date) => setEventData({ ...eventData, endDate: date })}
-            />
-
+            <DateFrame>
+              <DatePickerField
+                disabled={!isCreator}
+                showTimeSelect
+                dateFormat="d/M/yy hh:mm aa"
+                selected={eventData.startDate}
+                selectsStart
+                startDate={eventData.startDate}
+                endDate={eventData.endDate}
+                onChange={(date) => setEventData({ ...eventData, startDate: date }, console.log("selected date", date))}
+              />
+              <DatePickerField
+                disabled={!isCreator}
+                showTimeSelect
+                dateFormat="d/M/yy hh:mm aa"
+                selected={eventData.endDate}
+                selectsStart
+                startDate={eventData.startDate}
+                endDate={eventData.endDate}
+                minDate={eventData.startDate}
+                onChange={(date) => setEventData({ ...eventData, endDate: date })}
+              />
+            </DateFrame>
             {!user && (
               <InputField
                 type="text"
@@ -173,31 +163,102 @@ const SingleEvent = () => {
               />
             )}
             {isCreator && (
-              <>
-                <button type="submit">Save changes</button>
-              </>
+              <ButtonBox>
+                <StyledButton type="button" onClick={() => handleDelete(eventId)}>
+                  Delete
+                </StyledButton>
+                <StyledButton type="submit">Save changes</StyledButton>
+              </ButtonBox>
             )}
+            <ButtonBox>
+              <StyledButton type="button" onClick={handleJoin}>
+                Join Meeting
+              </StyledButton>
+              <StyledButton type="button" onClick={handleCopyLink}>
+                {copied ? "Link copied" : "Copy Link to Event"}
+              </StyledButton>
+            </ButtonBox>
           </InputForm>
-          <button onClick={handleJoin}>Join Meeting</button>
-          {isCreator && (
-            <button type="button" onClick={() => handleDelete(eventId)}>
-              Delete
-            </button>
-          )}
-          <button onClick={handleCopyLink}>{copied ? "Link copied" : "Copy Link to Event"}</button>
         </>
       ) : (
         <h1>Loading...</h1>
       )}
-    </>
+    </Window>
   );
 };
 
 export default SingleEvent;
 
-const InputField = styled.input``;
+const Window = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const InputField = styled.input`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: solid;
+  border-color: #f0f0f0;
+  border-radius: 10px;
+  text-align: center;
+  font-color: #555b6e;
+  font-size: medium;
+  outline: none;
+  height: 40px;
+  width: 410px;
+  margin: 5px;
+`;
 
 const InputForm = styled.form`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 50px 100px;
+`;
+
+const DateFrame = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const DatePickerField = styled(DatePicker)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: solid;
+  border-color: #f0f0f0;
+  border-radius: 10px;
+  text-align: center;
+  font-color: #555b6e;
+  font-size: medium;
+  outline: none;
+  height: 40px;
+  width: 410px;
+  margin: 5px;
+`;
+
+const ButtonBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+
+const StyledButton = styled.button`
+  color: black;
+  height: 30px;
+  width: 190px;
+  margin: 5px;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #f0f0f0;
+  &:hover {
+    background: grey;
+    color: lightgray;
+    border-radius: 10px;
+    border-color: grey;
+  }
 `;

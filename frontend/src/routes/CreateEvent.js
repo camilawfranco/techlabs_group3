@@ -84,27 +84,29 @@ const CreateEvent = () => {
           onChange={handleChange}
           required
         />
-        <DatePickerField
-          showTimeSelect
-          dateFormat="d/M/yy hh:mm aa"
-          selected={eventData.startDate}
-          selectsStart
-          startDate={eventData.startDate}
-          endDate={eventData.endDate}
-          onChange={(date) => setEventData({ ...eventData, startDate: date }, console.log("selected date", date))}
-          required
-        />
-        <DatePickerField
-          showTimeSelect
-          dateFormat="d/M/yy hh:mm aa"
-          selected={eventData.endDate}
-          selectsStart
-          startDate={eventData.startDate}
-          endDate={eventData.endDate}
-          minDate={eventData.startDate}
-          onChange={(date) => setEventData({ ...eventData, endDate: date })}
-          required
-        />
+        <DateFrame>
+          <DatePickerField
+            showTimeSelect
+            dateFormat="d/M/yy hh:mm aa"
+            selected={eventData.startDate}
+            selectsStart
+            startDate={eventData.startDate}
+            endDate={eventData.endDate}
+            onChange={(date) => setEventData({ ...eventData, startDate: date }, console.log("selected date", date))}
+            required
+          />
+          <DatePickerField
+            showTimeSelect
+            dateFormat="d/M/yy hh:mm aa"
+            selected={eventData.endDate}
+            selectsStart
+            startDate={eventData.startDate}
+            endDate={eventData.endDate}
+            minDate={eventData.startDate}
+            onChange={(date) => setEventData({ ...eventData, endDate: date })}
+            required
+          />
+        </DateFrame>
         <ButtonBox>
           <StyledButton type="submit">Submit (&Copy Link)</StyledButton>
           <StyledButton type="button" onClick={handleClear}>
@@ -172,6 +174,11 @@ const ButtonBox = styled.div`
   display: flex;
   flex-direction: row;
   gap: 10px;
+`;
+
+const DateFrame = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const DatePickerField = styled(DatePicker)`
