@@ -25,9 +25,9 @@ const Sidebar = () => {
             {user?.displayName?.charAt(1).toUpperCase()}
           </Avatar>
           <Navigation to="/newEvent">New Event</Navigation>
-          <Navigation to="/profile">Profile</Navigation>
           <Navigation to="/overview">Overview</Navigation>
           <Navigation to="/calender">Calender</Navigation>
+          <Navigation to="/profile">Profile</Navigation>
           <Navigation to="/" onClick={testLogout}>
             Logout
           </Navigation>
