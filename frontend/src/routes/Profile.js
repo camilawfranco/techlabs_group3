@@ -1,16 +1,17 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import { UserContext } from "../App";
 import { deleteUser, updateUser } from "../api";
 import { useHistory } from "react-router-dom";
+import { AuthContext } from "../Context/AuthContext";
+import { auth } from "../Firebase/firebaseConfig";
 
 const Profile = () => {
   const history = useHistory();
-  const { user, setUser } = useContext(UserContext);
+  const user = useContext(AuthContext);
   const [infoMessage, setInfoMessage] = useState();
   const [changePassword, setChangePassword] = useState(false);
   const [profileData, setProfileData] = useState({
-    name: user.name,
+    name: user.displayName,
     email: user.email,
     password: "",
     confirmPW: "",
@@ -18,20 +19,19 @@ const Profile = () => {
   console.log("profileData", profileData);
 
   // To do: PW check in backend => "best practice"
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (!changePassword) {
-      localStorage.setItem("profile", JSON.stringify(profileData));
+      auth.currentUser.updateProfile({ displayName: profileData.displayName });
+      auth.currentUser.updateEmail(profileData.email);
       setInfoMessage("Successfully changed Profile Data");
-      //test id
-      const id = "6117bd002eff41223c5d1e5d";
-      updateUser(id, profileData);
     }
     if (changePassword && profileData.password === profileData.confirmPW) {
+      auth.currentUser.updateProfile({ displayName: profileData.displayName });
+      auth.currentUser.updateEmail(profileData.email);
+      auth.currentUser.updatePassword(profileData.password);
       localStorage.setItem("profile", JSON.stringify(profileData));
       setInfoMessage("Successfully changed Profile Data and Password");
-      const id = "6117bd002eff41223c5d1e5d";
-      updateUser(id, profileData);
     }
     if (changePassword && profileData.password !== profileData.confirmPW) {
       setInfoMessage("Passwords don´t match");
@@ -55,7 +55,7 @@ const Profile = () => {
 
   const handleAbort = () => {
     setProfileData({
-      name: user.name,
+      name: user.displayName,
       email: user.email,
       password: "",
       confirmPW: "",
@@ -65,20 +65,23 @@ const Profile = () => {
   };
 
   const handleDeleteAccount = () => {
-    console.log("Userid (still dummy)", user.id);
-    // currently the login isn´t working, but you can still create a user, delete and update it
-    const id = "6117bd002eff41223c5d1e5d";
-    deleteUser(id);
-    setUser(null);
+    auth.currentUser
+      .delete()
+      .then(() => {
+        console.log("User deleted");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     history.push("/");
   };
 
   return (
     <>
-      <h1 style={{align: "center"}}>Profile</h1>
+      <h1 style={{ align: "center" }}>Profile</h1>
       <Avatar onClick={() => history.push("/profile")}>
-            {user?.name.charAt(0)}
-            {user?.name.charAt(1).toUpperCase()}
+        {user?.displayName?.charAt(0)}
+        {user?.displayName?.charAt(1).toUpperCase()}
       </Avatar>
       <Form onSubmit={handleSubmit}>
         <TextField type="text" name="name" id="name" value={profileData.name} onChange={handleChange} />
@@ -90,12 +93,14 @@ const Profile = () => {
           value={profileData.password}
           onChange={handleChange}
           placeholder="*****"
+          autoComplete="new-password"
         />
         {changePassword && (
           <TextField
             type="password"
             name="confirmPW"
             id="confirmPW"
+            autoComplete="new-password"
             value={profileData.confirmPW}
             placeholder="*****"
             onChange={handleChange}
@@ -146,10 +151,10 @@ const TextField = styled.input`
   width: 350px;
   border-radius: 5px;
   margin: 5px 0;
-  background-color: #F0F0F0;
+  background-color: #f0f0f0;
   border-radius: 5px;
   border-style: solid;
-  border-color: #F0F0F0;
+  border-color: #f0f0f0;
   color: steelblue;
   font-size: medium;
   outline: none;
@@ -165,8 +170,8 @@ const Button = styled.button`
   height: 25px;
   border-radius: 5px;
   border-style: solid;
-  border-color: #F0F0F0;
-  background-color: #F0F0F0;
+  border-color: #f0f0f0;
+  background-color: #f0f0f0;
   margin-right: 5px;
   margin-top: 5px;
   text-decoration: none;
@@ -175,11 +180,11 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   outline: none;
-   &:hover {
-  background: grey;
-  color: lightgray;
-  border-radius: 10px;
-  border-color: grey;
+  &:hover {
+    background: grey;
+    color: lightgray;
+    border-radius: 10px;
+    border-color: grey;
   }
 `;
 

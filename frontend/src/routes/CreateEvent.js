@@ -2,20 +2,19 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { createEvent } from "../api";
 import { useHistory } from "react-router-dom";
-import { UserContext } from "../App";
 
 // Datepicker for selecting the Dates
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { AuthContext } from "../Context/AuthContext";
 
 const CreateEvent = () => {
-  const { user } = useContext(UserContext);
+  const user = useContext(AuthContext);
   const history = useHistory();
   const InitialState = {
-    creator: user.id,
+    creator: user.uid,
     title: "",
     place: "",
-    time: "",
     startDate: new Date(),
     endDate: new Date(),
     participants: "",
@@ -78,15 +77,6 @@ const CreateEvent = () => {
         />
         <InputField
           type="text"
-          name="time"
-          id="time"
-          value={eventData.time}
-          placeholder="Time of Event"
-          onChange={handleChange}
-          required
-        />
-        <InputField
-          type="text"
           name="participants"
           id="participants"
           value={eventData.participants}
@@ -94,7 +84,7 @@ const CreateEvent = () => {
           onChange={handleChange}
           required
         />
-        <DatePicker
+        <DatePickerField
           showTimeSelect
           dateFormat="d/M/yy hh:mm aa"
           selected={eventData.startDate}
@@ -104,7 +94,7 @@ const CreateEvent = () => {
           onChange={(date) => setEventData({ ...eventData, startDate: date }, console.log("selected date", date))}
           required
         />
-        <DatePicker
+        <DatePickerField
           showTimeSelect
           dateFormat="d/M/yy hh:mm aa"
           selected={eventData.endDate}
@@ -116,8 +106,10 @@ const CreateEvent = () => {
           required
         />
         <ButtonBox>
-        <StyledButton type="submit">Submit (&Copy Link)</StyledButton>
-        <StyledButton type="button" onClick={handleClear}>Clear</StyledButton>
+          <StyledButton type="submit">Submit (&Copy Link)</StyledButton>
+          <StyledButton type="button" onClick={handleClear}>
+            Clear
+          </StyledButton>
         </ButtonBox>
       </InputForm>
     </>
@@ -131,10 +123,10 @@ const InputField = styled.input`
   justify-content: center;
   align-items: center;
   border-style: solid;
-  border-color: #F0F0F0;
+  border-color: #f0f0f0;
   border-radius: 10px;
   text-align: center;
-  font-color: #555b6e; 
+  font-color: #555b6e;
   font-size: medium;
   outline: none;
   height: 40px;
@@ -146,6 +138,7 @@ const InputForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   margin: 50px 100px;
 `;
 
@@ -157,17 +150,17 @@ const StyledButton = styled.button`
   margin: 5px;
   border-radius: 10px;
   border-style: solid;
-  border-color: #F0F0F0;
+  border-color: #f0f0f0;
   &:hover {
-  background: grey;
-  color: lightgray;
-  border-radius: 10px;
-  border-color: grey;
+    background: grey;
+    color: lightgray;
+    border-radius: 10px;
+    border-color: grey;
   }
 `;
 
 //New styled component to edit the H1
-  const Title = styled.h1`
+const Title = styled.h1`
   color: black;
   flex-direction: column;
   align-items: center;
@@ -175,8 +168,24 @@ const StyledButton = styled.button`
   margin-top: 100px;
 `;
 
-  const ButtonBox = styled.div`
+const ButtonBox = styled.div`
   display: flex;
   flex-direction: row;
   gap: 10px;
+`;
+
+const DatePickerField = styled(DatePicker)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-style: solid;
+  border-color: #f0f0f0;
+  border-radius: 10px;
+  text-align: center;
+  font-color: #555b6e;
+  font-size: medium;
+  outline: none;
+  height: 40px;
+  width: 410px;
+  margin: 5px;
 `;

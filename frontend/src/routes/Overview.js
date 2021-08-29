@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import EventOverview from "../components/Events/EventOverview";
-import { UserContext } from "../App";
 import styled from "styled-components";
+import { AuthContext } from "../Context/AuthContext";
 
 const Overview = () => {
   const history = useHistory();
-  const { user } = useContext(UserContext);
+  const user = useContext(AuthContext);
 
   const createEvent = () => {
     history.push("/newEvent");

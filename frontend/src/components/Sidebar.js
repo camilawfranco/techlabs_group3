@@ -2,14 +2,16 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router";
-import { UserContext } from "../App";
+import { AuthContext } from "../Context/AuthContext";
+import { auth } from "../Firebase/firebaseConfig";
 
 const Sidebar = () => {
   const history = useHistory();
-  const { user, setUser } = useContext(UserContext);
+  const user = useContext(AuthContext);
+
   const testLogout = () => {
-    localStorage.removeItem("profile");
-    setUser(null);
+    auth.signOut();
+    history.push("/");
   };
 
   console.log("user", user);
@@ -19,8 +21,8 @@ const Sidebar = () => {
       {user ? (
         <>
           <Avatar onClick={() => history.push("/profile")}>
-            {user?.name.charAt(0)}
-            {user?.name.charAt(1).toUpperCase()}
+            {user?.displayName?.charAt(0)}
+            {user?.displayName?.charAt(1).toUpperCase()}
           </Avatar>
           <Navigation to="/profile">Profile</Navigation>
           <Navigation to="/overview">Overview</Navigation>

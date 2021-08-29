@@ -2,16 +2,16 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { deleteEvent, updateEvent, getEvents } from "../../api";
 import { MdLocationOn, MdAccessTime, MdPeople } from "react-icons/md";
-import { UserContext } from "../../App";
+import { AuthContext } from "../../Context/AuthContext";
 
 const EventTile = ({ event, handleShowEvent, setEvents }) => {
   const [eventData, setEventData] = useState({ ...event });
-  const { user } = useContext(UserContext);
-  const isCreator = user?.id === event.creator;
+  const user = useContext(AuthContext);
+  const isCreator = user?.uid === event.creator;
 
   const handleJoin = (event) => {
     event.stopPropagation();
-    const newParticipantsList = [...eventData.participants, user?.name];
+    const newParticipantsList = [...eventData.participants, user?.displayName];
     const newData = { ...eventData, participants: newParticipantsList };
     setEventData({ ...newData });
     updateEvent(newData._id, newData);

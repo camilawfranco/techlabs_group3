@@ -2,15 +2,15 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { deleteEvent, getSingleEvent, updateEvent } from "../api";
 import { useHistory } from "react-router-dom";
-import { UserContext } from "../App";
 
 // Datepicker for selecting the Dates
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { AuthContext } from "../Context/AuthContext";
 
 const SingleEvent = () => {
   const history = useHistory();
-  const { user } = useContext(UserContext);
+  const user = useContext(AuthContext);
   const [isCreator, setIsCreator] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [nameWoLogin, setNameWoLogin] = useState("");
@@ -64,7 +64,7 @@ const SingleEvent = () => {
     const updatedParticipants = [...eventData.participants];
     // const newParticipant = "";
     if (user) {
-      updatedParticipants.push(user?.name);
+      updatedParticipants.push(user?.displayName);
     } else {
       if (nameWoLogin !== "") {
         updatedParticipants.push(nameWoLogin);
@@ -97,7 +97,6 @@ const SingleEvent = () => {
   return (
     <>
       <h1>Single Event</h1>
-      {user && <button onClick={() => history.goBack()}>Go back</button>}
       {!isLoading ? (
         <>
           <InputForm onSubmit={handleSubmit}>
