@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { deleteEvent, updateEvent, getEvents } from "../../api";
 import { MdLocationOn, MdAccessTime, MdPeople } from "react-icons/md";
 import { AuthContext } from "../../Context/AuthContext";
+import moment from "moment";
 
 const EventTile = ({ event, handleShowEvent, setEvents }) => {
   const [eventData, setEventData] = useState({ ...event });
@@ -30,37 +31,42 @@ const EventTile = ({ event, handleShowEvent, setEvents }) => {
     );
   };
 
+  console.log("check date", moment(eventData.startDate).format("DD/MM/YY"), moment(eventData.startDate).fromNow());
+
   return (
     <EventTileContainer onClick={() => handleShowEvent(eventData._id)}>
       <EventTitleHeader>
-        <h2>{eventData.title}</h2>
+        <h2>
+          <span>{eventData.title}</span>
+          <TimeUntil> ({moment(eventData.startDate).fromNow()})</TimeUntil>
+        </h2>
       </EventTitleHeader>
-
       <EventTitleContent>
         <LocationAndTimeContainer>
           <h4>
             <MdLocationOn /> {eventData.place}
           </h4>
           <h4>
-            <MdAccessTime /> {eventData.time}
+            <MdAccessTime />
+            {moment(eventData.startDate).format("DD/MM/YY hh:mm")}
           </h4>
         </LocationAndTimeContainer>
 
         <h4>
           <MdPeople />{" "}
           {eventData.participants.map((participant, index) => {
-            if (index === eventData.participants.length - 1) {
-              return participant;
-            } else {
-              return `${participant}, `;
+            const numberParicipantsShown = 3;
+            if (index < numberParicipantsShown) {
+              if (index === eventData.participants.length - 1) {
+                return participant;
+              } else {
+                return `${participant}, `;
+              }
             }
           })}
         </h4>
 
-        <p>
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-          dolore magna
-        </p>
+        <p>{eventData.text}</p>
 
         <ButtonArea>
           {isCreator && <Button onClick={(event) => handleDelete(event, eventData._id)}>DELETE</Button>}
@@ -110,6 +116,10 @@ const EventTitleHeader = styled.div`
 
   background: #c4c4c4;
   border-radius: 10px;
+`;
+
+const TimeUntil = styled.span`
+  font-size: 14px;
 `;
 
 const EventTitleContent = styled.div`

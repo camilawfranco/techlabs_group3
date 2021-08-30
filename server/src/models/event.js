@@ -7,6 +7,9 @@ const Event = mongoose.model("Event", {
   title: {
     type: String,
   },
+  text: {
+    type: String,
+  },
   place: {
     type: String,
   },

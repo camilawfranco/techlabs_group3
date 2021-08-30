@@ -28,8 +28,6 @@ const CalendarView = () => {
     history.push(`/event/${eventData._id}`);
   };
 
-  console.log("testing for getting Events to Calender", events);
-
   return (
     <CalendarContainer>
       <Calendar

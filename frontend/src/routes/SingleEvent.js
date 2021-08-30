@@ -19,6 +19,7 @@ const SingleEvent = () => {
     title: "",
     place: "",
     participants: "",
+    text: "",
     startDate: new Date(),
     endDate: new Date(),
   });
@@ -31,6 +32,7 @@ const SingleEvent = () => {
         startDate: new Date(response.data.startDate),
         endDate: new Date(response.data.endDate),
       });
+      console.log("checkpoint", response.data);
       setIsLoading(false);
       if (response.data.creator === user?.uid) {
         setIsCreator(true);
@@ -87,10 +89,6 @@ const SingleEvent = () => {
     document.body.removeChild(el);
     setCopied(true);
   };
-
-  console.log("isCreator (SingleEvent)", isCreator);
-  console.log("user (SingleEvent)", Boolean(user));
-  console.log("start date geändert", eventData);
 
   return (
     <Window>
@@ -162,6 +160,16 @@ const SingleEvent = () => {
                 onChange={handleNameWoLogin}
               />
             )}
+            <InputField
+              type="text"
+              disabled={!isCreator}
+              name="text"
+              id="text"
+              value={eventData.text}
+              placeholder="Info Text"
+              onChange={handleChange}
+              required
+            />
             {isCreator && (
               <ButtonBox>
                 <StyledButton type="button" onClick={() => handleDelete(eventId)}>

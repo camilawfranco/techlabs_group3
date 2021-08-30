@@ -15,6 +15,7 @@ const CreateEvent = () => {
     creator: user.uid,
     title: "",
     place: "",
+    text: "",
     startDate: new Date(),
     endDate: new Date(),
     participants: "",
@@ -104,6 +105,15 @@ const CreateEvent = () => {
             endDate={eventData.endDate}
             minDate={eventData.startDate}
             onChange={(date) => setEventData({ ...eventData, endDate: date })}
+            required
+          />
+          <InputField
+            type="text"
+            name="text"
+            id="text"
+            value={eventData.text}
+            placeholder="Info Text"
+            onChange={handleChange}
             required
           />
         </DateFrame>

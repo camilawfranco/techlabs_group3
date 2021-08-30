@@ -11,7 +11,7 @@ const Profile = () => {
   const [infoMessage, setInfoMessage] = useState();
   const [changePassword, setChangePassword] = useState(false);
   const [profileData, setProfileData] = useState({
-    name: user.displayName,
+    displayName: user.displayName,
     email: user.email,
     password: "",
     confirmPW: "",
@@ -21,15 +21,13 @@ const Profile = () => {
   // To do: PW check in backend => "best practice"
   const handleSubmit = async (event) => {
     event.preventDefault();
+    await auth.currentUser.updateProfile({ displayName: profileData.displayName });
+    await auth.currentUser.updateEmail(profileData.email);
     if (!changePassword) {
-      auth.currentUser.updateProfile({ displayName: profileData.displayName });
-      auth.currentUser.updateEmail(profileData.email);
       setInfoMessage("Successfully changed Profile Data");
     }
     if (changePassword && profileData.password === profileData.confirmPW) {
-      auth.currentUser.updateProfile({ displayName: profileData.displayName });
-      auth.currentUser.updateEmail(profileData.email);
-      auth.currentUser.updatePassword(profileData.password);
+      await auth.currentUser.updatePassword(profileData.password);
       localStorage.setItem("profile", JSON.stringify(profileData));
       setInfoMessage("Successfully changed Profile Data and Password");
     }
@@ -84,7 +82,13 @@ const Profile = () => {
         {user?.displayName?.charAt(1).toUpperCase()}
       </Avatar>
       <Form onSubmit={handleSubmit}>
-        <TextField type="text" name="name" id="name" value={profileData.name} onChange={handleChange} />
+        <TextField
+          type="text"
+          name="displayName"
+          id="displayName"
+          value={profileData.displayName}
+          onChange={handleChange}
+        />
         <TextField type="text" name="email" id="email" value={profileData.email} onChange={handleChange} />
         <TextField
           type="password"
