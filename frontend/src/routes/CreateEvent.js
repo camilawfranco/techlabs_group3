@@ -24,15 +24,24 @@ const CreateEvent = () => {
   const [eventData, setEventData] = useState(InitialState);
 
   const handleChange = (event) => {
-    setEventData({ ...eventData, [event.currentTarget.name]: event.currentTarget.value });
+    setEventData({
+      ...eventData,
+      [event.currentTarget.name]: event.currentTarget.value,
+    });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const testList = [];
     const participantsList = eventData.participants.split(", ");
-    participantsList.map((participant) => testList.push({ name: participant, id: "" }));
-    const uploadData = { ...eventData, participants: participantsList, newParticipants: testList };
+    participantsList.map((participant) =>
+      testList.push({ name: participant, id: "" })
+    );
+    const uploadData = {
+      ...eventData,
+      participants: participantsList,
+      newParticipants: testList,
+    };
     console.log(uploadData);
     let ID = "";
     await createEvent(uploadData).then((response) => {
@@ -57,7 +66,7 @@ const CreateEvent = () => {
   };
 
   return (
-    <>
+    <ContentWrapper>
       <Title> New Event</Title>
       <InputForm onSubmit={handleSubmit}>
         <InputField
@@ -95,7 +104,12 @@ const CreateEvent = () => {
             selectsStart
             startDate={eventData.startDate}
             endDate={eventData.endDate}
-            onChange={(date) => setEventData({ ...eventData, startDate: date }, console.log("selected date", date))}
+            onChange={(date) =>
+              setEventData(
+                { ...eventData, startDate: date },
+                console.log("selected date", date)
+              )
+            }
             required
           />
           <DatePickerField
@@ -126,16 +140,20 @@ const CreateEvent = () => {
           </StyledButton>
         </ButtonBox>
       </InputForm>
-    </>
+    </ContentWrapper>
   );
 };
 
 export default CreateEvent;
 
-const InputField = styled.input`
+const ContentWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+const InputField = styled.input`
   border-style: solid;
   border-color: #f0f0f0;
   border-radius: 10px;
@@ -153,7 +171,7 @@ const InputForm = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 50px 100px;
+  /* margin: 50px 100px; */
 `;
 
 //New styled components element to edit the look of the form buttons
@@ -179,7 +197,6 @@ const Title = styled.h1`
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-top: 100px;
 `;
 
 const ButtonBox = styled.div`
@@ -194,9 +211,9 @@ const DateFrame = styled.div`
 `;
 
 const DatePickerField = styled(DatePicker)`
-  display: flex;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   border-style: solid;
   border-color: #f0f0f0;
   border-radius: 10px;

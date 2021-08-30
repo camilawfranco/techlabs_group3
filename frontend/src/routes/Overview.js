@@ -14,19 +14,35 @@ const Overview = () => {
 
   return (
     <>
-      <h1>Upcoming events</h1>
-      {user && <Button onClick={createEvent}>Create new Event</Button>}
-      <EventOverview />
+      <ContentWrapper>
+        <Header>
+          <h1>Upcoming events</h1>
+          {user && <Button onClick={createEvent}>Create new Event</Button>}
+        </Header>
+
+        <EventOverview />
+      </ContentWrapper>
     </>
   );
 };
 
 export default Overview;
 
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Header = styled.div`
+  /* margin-left: 70px; */
+`;
+
 const Button = styled.button`
   height: 27px;
 
-  margin-right: 102px;
+  /* margin-right: 102px; */
 
   border: none;
   background: #faf9f9;
