@@ -47,7 +47,7 @@ Sidebar.propTypes = {
 export default Sidebar;
 
 const Logo = styled.img`
-  height: 150px;
+  height: 110px;
 `;
 
 const SidebarContainer = styled.div`
@@ -66,7 +66,7 @@ const SidebarContainer = styled.div`
   flex-direction: column;
   align-items: center;
   transition: transform 0.3s ease-in-out;
-  transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(-100%)'};
+  transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-100%)")};
 `;
 
 const Navigation = styled(NavLink)`
