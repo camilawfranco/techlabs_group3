@@ -10,6 +10,16 @@ const Event = mongoose.model("Event", {
   text: {
     type: String,
   },
+  newParticipants: [
+    {
+      name: {
+        type: String,
+      },
+      id: {
+        type: String,
+      },
+    },
+  ],
   place: {
     type: String,
   },
