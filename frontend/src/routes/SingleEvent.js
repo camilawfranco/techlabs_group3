@@ -28,6 +28,14 @@ const SingleEvent = () => {
     endDate: new Date(),
   });
   const eventId = window.location.href.split("/").pop();
+  // get IP of device (res.data.IPv4)
+  useEffect(() => {
+    const fetchIp = async () => {
+      const res = await getIp();
+      setIpData(res.data);
+    };
+    fetchIp();
+  }, []);
 
   useEffect(() => {
     console.log("useEffect");
@@ -44,6 +52,8 @@ const SingleEvent = () => {
         setParticipants(participantsArray.join(", "));
 
         setIsLoading(false);
+        console.log("user SingleEvent", user);
+        console.log("problems detect creator", user?.uid, response.data.creator);
         if (response.data.creator === user?.uid) {
           setIsCreator(true);
         }
@@ -55,15 +65,6 @@ const SingleEvent = () => {
     } else {
       setJoined(eventData.newParticipants.some((participant) => participant.id === ipData.IPv4));
     }
-  }, []);
-
-  // get IP of device (res.data.IPv4)
-  useEffect(() => {
-    const fetchIp = async () => {
-      const res = await getIp();
-      setIpData(res.data);
-    };
-    fetchIp();
   }, []);
 
   const handleChange = (event) => {
