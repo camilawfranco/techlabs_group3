@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import { deleteEvent, getSingleEvent, updateEvent } from "../api";
+import { deleteEvent, getSingleEvent, updateEvent, getIp } from "../api";
 import { useHistory } from "react-router-dom";
 
 // Datepicker for selecting the Dates
@@ -12,6 +12,9 @@ const SingleEvent = () => {
   const history = useHistory();
   const user = useContext(AuthContext);
   const [isCreator, setIsCreator] = useState(false);
+  const [joined, setJoined] = useState(false);
+  const [participants, setParticipants] = useState("");
+  const [ipData, setIpData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [nameWoLogin, setNameWoLogin] = useState("");
   const [copied, setCopied] = useState(false);
@@ -19,6 +22,7 @@ const SingleEvent = () => {
     title: "",
     place: "",
     participants: "",
+    newParticipants: [],
     text: "",
     startDate: new Date(),
     endDate: new Date(),
@@ -26,18 +30,40 @@ const SingleEvent = () => {
   const eventId = window.location.href.split("/").pop();
 
   useEffect(() => {
-    getSingleEvent(eventId).then((response) => {
-      setEventData({
-        ...response.data,
-        startDate: new Date(response.data.startDate),
-        endDate: new Date(response.data.endDate),
+    console.log("useEffect");
+    const fetchData = async () => {
+      await getSingleEvent(eventId).then((response) => {
+        setEventData({
+          ...response.data,
+          startDate: new Date(response.data.startDate),
+          endDate: new Date(response.data.endDate),
+        });
+        // show participants with extra list
+        const participantsArray = [];
+        response.data.newParticipants.map((participant) => participantsArray.push(participant.name));
+        setParticipants(participantsArray.join(", "));
+
+        setIsLoading(false);
+        if (response.data.creator === user?.uid) {
+          setIsCreator(true);
+        }
       });
-      console.log("checkpoint", response.data);
-      setIsLoading(false);
-      if (response.data.creator === user?.uid) {
-        setIsCreator(true);
-      }
-    });
+    };
+    fetchData();
+    if (user) {
+      setJoined(eventData.newParticipants.some((participant) => participant.id === user?.uid));
+    } else {
+      setJoined(eventData.newParticipants.some((participant) => participant.id === ipData.IPv4));
+    }
+  }, []);
+
+  // get IP of device (res.data.IPv4)
+  useEffect(() => {
+    const fetchIp = async () => {
+      const res = await getIp();
+      setIpData(res.data);
+    };
+    fetchIp();
   }, []);
 
   const handleChange = (event) => {
@@ -51,7 +77,6 @@ const SingleEvent = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     updateEvent(eventId, eventData);
-    // history.push("/overview");
     history.goBack();
   };
 
@@ -59,23 +84,31 @@ const SingleEvent = () => {
     deleteEvent(id);
     history.push("/overview");
   };
-
-  const handleJoin = (event) => {
-    event.preventDefault();
-    const updatedParticipants = [...eventData.participants];
-    // const newParticipant = "";
-    if (user) {
-      updatedParticipants.push(user?.displayName);
+  const handleJoin = async (event) => {
+    event.stopPropagation();
+    let newParticipantsList = [];
+    if (!joined) {
+      if (user) {
+        newParticipantsList = [...eventData.newParticipants, { name: user?.displayName, id: user?.uid }];
+      } else {
+        newParticipantsList = [...eventData.newParticipants, { name: nameWoLogin, id: ipData.IPv4 }];
+      }
     } else {
-      if (nameWoLogin !== "") {
-        updatedParticipants.push(nameWoLogin);
+      if (user) {
+        newParticipantsList = [...eventData.newParticipants].filter((participant) => participant.id !== user?.uid);
+      } else {
+        newParticipantsList = [...eventData.newParticipants].filter((participant) => participant.id !== ipData.IPv4);
       }
     }
-
-    // newData => setState is not quick enough; updateEvent would run with old state
-    const newData = { ...eventData, participants: updatedParticipants };
-    setEventData({ ...eventData, participants: updatedParticipants });
-    updateEvent(eventId, newData);
+    // update participants (field) just a string
+    const participantsArray = [];
+    newParticipantsList.map((participant) => participantsArray.push(participant.name));
+    setParticipants(participantsArray.join(", "));
+    // update particpants (eventData) [{name: "", id:""}]
+    const newData = { ...eventData, newParticipants: newParticipantsList };
+    setEventData({ ...newData });
+    setJoined(!joined);
+    await updateEvent(newData._id, newData);
   };
 
   const handleCopyLink = () => {
@@ -89,6 +122,8 @@ const SingleEvent = () => {
     document.body.removeChild(el);
     setCopied(true);
   };
+
+  console.log("participants", eventData.participants);
 
   return (
     <Window>
@@ -119,10 +154,10 @@ const SingleEvent = () => {
             />
             <InputField
               type="text"
-              disabled={!isCreator}
+              disabled
               name="participants"
               id="participants"
-              value={eventData.participants}
+              value={participants}
               placeholder="Participants"
               onChange={handleChange}
               required
@@ -150,16 +185,6 @@ const SingleEvent = () => {
                 onChange={(date) => setEventData({ ...eventData, endDate: date })}
               />
             </DateFrame>
-            {!user && (
-              <InputField
-                type="text"
-                name="name"
-                id="id"
-                value={nameWoLogin}
-                placeholder="Enter Name to join Event"
-                onChange={handleNameWoLogin}
-              />
-            )}
             <InputField
               type="text"
               disabled={!isCreator}
@@ -170,6 +195,20 @@ const SingleEvent = () => {
               onChange={handleChange}
               required
             />
+            {!user && (
+              <InputField
+                type="text"
+                name="name"
+                id="id"
+                value={nameWoLogin}
+                placeholder="Enter Name to join Event"
+                onChange={handleNameWoLogin}
+              />
+            )}
+            {/* Name Test */}
+            {/* {eventData.newParticipants.map((participant) => {
+              return <p>{participant.name}</p>;
+            })} */}
             {isCreator && (
               <ButtonBox>
                 <StyledButton type="button" onClick={() => handleDelete(eventId)}>
@@ -180,7 +219,7 @@ const SingleEvent = () => {
             )}
             <ButtonBox>
               <StyledButton type="button" onClick={handleJoin}>
-                Join Meeting
+                {joined ? "Leave Meeting" : "Join Meeting"}
               </StyledButton>
               <StyledButton type="button" onClick={handleCopyLink}>
                 {copied ? "Link copied" : "Copy Link to Event"}
