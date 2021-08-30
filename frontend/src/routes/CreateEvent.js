@@ -29,8 +29,10 @@ const CreateEvent = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const testList = [];
     const participantsList = eventData.participants.split(", ");
-    const uploadData = { ...eventData, participants: participantsList };
+    participantsList.map((participant) => testList.push({ name: participant, id: "" }));
+    const uploadData = { ...eventData, participants: participantsList, newParticipants: testList };
     console.log(uploadData);
     let ID = "";
     await createEvent(uploadData).then((response) => {

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { deleteEvent, updateEvent, getEvents } from "../../api";
 import { MdLocationOn, MdAccessTime, MdPeople } from "react-icons/md";
@@ -8,14 +8,24 @@ import moment from "moment";
 const EventTile = ({ event, handleShowEvent, setEvents }) => {
   const [eventData, setEventData] = useState({ ...event });
   const user = useContext(AuthContext);
+  const [joined, setJoined] = useState(eventData.newParticipants.some((participant) => participant.id === user?.uid));
   const isCreator = user?.uid === event.creator;
+
+  console.log("joined", joined);
 
   const handleJoin = (event) => {
     event.stopPropagation();
-    const newParticipantsList = [...eventData.participants, user?.displayName];
-    const newData = { ...eventData, participants: newParticipantsList };
+    let newParticipantsList = [];
+    if (!joined) {
+      newParticipantsList = [...eventData.newParticipants, { name: user?.displayName, id: user?.uid }];
+    } else {
+      newParticipantsList = [...eventData.newParticipants].filter((participant) => participant.id !== user?.uid);
+    }
+    console.log("newParticipantsList", newParticipantsList);
+    const newData = { ...eventData, newParticipants: newParticipantsList };
     setEventData({ ...newData });
     updateEvent(newData._id, newData);
+    setJoined(!joined);
   };
 
   const handleDelete = (event, id) => {
@@ -30,8 +40,6 @@ const EventTile = ({ event, handleShowEvent, setEvents }) => {
       }, 100)
     );
   };
-
-  console.log("check date", moment(eventData.startDate).format("DD/MM/YY"), moment(eventData.startDate).fromNow());
 
   return (
     <EventTileContainer onClick={() => handleShowEvent(eventData._id)}>
@@ -48,19 +56,19 @@ const EventTile = ({ event, handleShowEvent, setEvents }) => {
           </h4>
           <h4>
             <MdAccessTime />
-            {moment(eventData.startDate).format("DD/MM/YY hh:mm")}
+            {moment(eventData.startDate).format(" DD/MM/YY hh:mm")}
           </h4>
         </LocationAndTimeContainer>
 
         <h4>
           <MdPeople />{" "}
-          {eventData.participants.map((participant, index) => {
+          {eventData.newParticipants.map((participant, index) => {
             const numberParicipantsShown = 3;
             if (index < numberParicipantsShown) {
-              if (index === eventData.participants.length - 1) {
-                return participant;
+              if (index === eventData.newParticipants.length - 1) {
+                return participant.name;
               } else {
-                return `${participant}, `;
+                return `${participant.name}, `;
               }
             }
           })}
@@ -71,7 +79,7 @@ const EventTile = ({ event, handleShowEvent, setEvents }) => {
         <ButtonArea>
           {isCreator && <Button onClick={(event) => handleDelete(event, eventData._id)}>DELETE</Button>}
 
-          {user && <Button onClick={handleJoin}>JOIN</Button>}
+          {user && <Button onClick={handleJoin}>{joined ? "LEAVE" : "JOIN"}</Button>}
         </ButtonArea>
       </EventTitleContent>
     </EventTileContainer>

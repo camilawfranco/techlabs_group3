@@ -15,7 +15,7 @@ const Overview = () => {
   return (
     <>
       <h1>Upcoming events</h1>
-      {user && <Button onClick={createEvent}>Create new </Button>}
+      {user && <Button onClick={createEvent}>Create new Event</Button>}
       <EventOverview />
     </>
   );
@@ -24,7 +24,6 @@ const Overview = () => {
 export default Overview;
 
 const Button = styled.button`
-  width: 112px;
   height: 27px;
 
   margin-right: 102px;
