@@ -8,7 +8,9 @@ import moment from "moment";
 const EventTile = ({ event, handleShowEvent, setEvents }) => {
   const [eventData, setEventData] = useState({ ...event });
   const user = useContext(AuthContext);
-  const [joined, setJoined] = useState(eventData.newParticipants.some((participant) => participant.id === user?.uid));
+  const [joined, setJoined] = useState(
+    Boolean(eventData.newParticipants.filter((participant) => participant.id === user?.uid))
+  );
   const isCreator = user?.uid === event.creator;
 
   console.log("joined", joined);

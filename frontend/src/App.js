@@ -13,8 +13,6 @@ import { AuthContext } from "./Context/AuthContext";
 function App() {
   const user = useContext(AuthContext);
 
-  console.log("ENV", process.env.REACT_APP_API_KEY);
-
   return (
     <BrowserRouter>
       <Layout>
