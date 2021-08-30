@@ -4,6 +4,8 @@ const url = "http://localhost:5000";
 const urlEvents = `${url}/events`;
 const urlUsers = `${url}/users`;
 
+export const getIp = async () => await axios.get("https://geolocation-db.com/json/");
+
 export const getEvents = async () => await axios.get(urlEvents);
 export const getSingleEvent = async (id) => await axios.get(`${urlEvents}/${id}`);
 export const createEvent = async (newEvent) => await axios.post(urlEvents, newEvent);

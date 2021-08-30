@@ -13,7 +13,7 @@ const EventTile = ({ event, handleShowEvent, setEvents }) => {
 
   console.log("joined", joined);
 
-  const handleJoin = (event) => {
+  const handleJoin = async (event) => {
     event.stopPropagation();
     let newParticipantsList = [];
     if (!joined) {
@@ -24,8 +24,8 @@ const EventTile = ({ event, handleShowEvent, setEvents }) => {
     console.log("newParticipantsList", newParticipantsList);
     const newData = { ...eventData, newParticipants: newParticipantsList };
     setEventData({ ...newData });
-    updateEvent(newData._id, newData);
     setJoined(!joined);
+    await updateEvent(newData._id, newData);
   };
 
   const handleDelete = (event, id) => {
