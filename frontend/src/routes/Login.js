@@ -11,7 +11,13 @@ const LoginCW = () => {
   const history = useHistory();
   const user = useContext(AuthContext);
   const [registered, setRegistered] = useState(true);
-  const [personalData, setPersonalData] = useState({ displayName: "", email: "", password: "", confirmPW: "", id: "" });
+  const [personalData, setPersonalData] = useState({
+    displayName: "",
+    email: "",
+    password: "",
+    confirmPW: "",
+    id: "",
+  });
   const [visibility, setVisibility] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -21,7 +27,10 @@ const LoginCW = () => {
   };
 
   const handleChange = (event) => {
-    setPersonalData({ ...personalData, [event.currentTarget.name]: event.currentTarget.value });
+    setPersonalData({
+      ...personalData,
+      [event.currentTarget.name]: event.currentTarget.value,
+    });
     setMessage("");
   };
 
@@ -34,7 +43,10 @@ const LoginCW = () => {
     if (registered) {
       // Login
       try {
-        await auth.signInWithEmailAndPassword(personalData.email, personalData.password);
+        await auth.signInWithEmailAndPassword(
+          personalData.email,
+          personalData.password
+        );
         history.push("/overview");
       } catch (error) {
         setMessage("Wrong Credentials or non-existent User!");
@@ -44,8 +56,13 @@ const LoginCW = () => {
       // Register a new User
       if (personalData.confirmPW === personalData.password) {
         try {
-          await auth.createUserWithEmailAndPassword(personalData.email, personalData.password);
-          await auth.currentUser.updateProfile({ displayName: personalData.displayName });
+          await auth.createUserWithEmailAndPassword(
+            personalData.email,
+            personalData.password
+          );
+          await auth.currentUser.updateProfile({
+            displayName: personalData.displayName,
+          });
           history.push("/overview");
         } catch (error) {
           setMessage("Email is already in use!");
@@ -153,7 +170,7 @@ const InputField = styled.input`
   border-color: white;
   border-radius: 10px;
   text-align: center;
-  font-color: #555b6e;
+  color: #555b6e;
   font-size: medium;
   outline: none;
   height: 40px;
@@ -183,22 +200,23 @@ const ButtonBox = styled.div`
 `;
 
 const Button = styled.button`
-display: flex;
-justify-content: center;
-align-items: center;
-text-align: center;
-height: 40px;
-width: 205px;
-background-color: white;
-border: solid, white; 
-border-radius: 10px;
-border-style: none;
-font-color: #555b6e; 
-font-size: medium;
-&:hover {
-background: grey;
-color: lightgray;
-border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 40px;
+  width: 205px;
+  background-color: white;
+  border: solid, white;
+  border-radius: 10px;
+  border-style: none;
+  color: #555b6e;
+  font-size: medium;
+  &:hover {
+    background: grey;
+    color: lightgray;
+    border-radius: 10px;
+  }
 `;
 
 const InfoText = styled.p`

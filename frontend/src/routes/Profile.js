@@ -21,7 +21,9 @@ const Profile = () => {
   // To do: PW check in backend => "best practice"
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await auth.currentUser.updateProfile({ displayName: profileData.displayName });
+    await auth.currentUser.updateProfile({
+      displayName: profileData.displayName,
+    });
     await auth.currentUser.updateEmail(profileData.email);
     if (!changePassword) {
       setInfoMessage("Successfully changed Profile Data");
@@ -42,10 +44,16 @@ const Profile = () => {
       [event.currentTarget.name]: event.currentTarget.value,
     });
     console.log(event.currentTarget.name, event.currentTarget.value);
-    if (event.currentTarget.name === "password" && event.currentTarget.value !== "") {
+    if (
+      event.currentTarget.name === "password" &&
+      event.currentTarget.value !== ""
+    ) {
       setChangePassword(true);
     }
-    if (event.currentTarget.name === "password" && event.currentTarget.value === "") {
+    if (
+      event.currentTarget.name === "password" &&
+      event.currentTarget.value === ""
+    ) {
       setChangePassword(false);
     }
     setInfoMessage("");
@@ -75,7 +83,7 @@ const Profile = () => {
   };
 
   return (
-    <>
+    <ContentWrapper>
       <h1 style={{ align: "center" }}>Profile</h1>
       <Avatar onClick={() => history.push("/profile")}>
         {user?.displayName?.charAt(0)}
@@ -89,7 +97,13 @@ const Profile = () => {
           value={profileData.displayName}
           onChange={handleChange}
         />
-        <TextField type="text" name="email" id="email" value={profileData.email} onChange={handleChange} />
+        <TextField
+          type="text"
+          name="email"
+          id="email"
+          value={profileData.email}
+          onChange={handleChange}
+        />
         <TextField
           type="password"
           name="password"
@@ -121,11 +135,18 @@ const Profile = () => {
           </Button>
         </ButtonWrapper>
       </Form>
-    </>
+    </ContentWrapper>
   );
 };
 
 export default Profile;
+
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Form = styled.form`
   display: flex;
