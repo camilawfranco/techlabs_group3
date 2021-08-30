@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
+import { bool } from "prop-types";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router";
 import { AuthContext } from "../Context/AuthContext";
 import { auth } from "../Firebase/firebaseConfig";
 
-const Sidebar = () => {
+const Sidebar = ({ open }) => {
   const history = useHistory();
   const user = useContext(AuthContext);
 
@@ -16,7 +17,7 @@ const Sidebar = () => {
 
   console.log("user", user);
   return (
-    <SidebarContainer>
+    <SidebarContainer open={open}>
       <Logo src={require("../Logo_Aloha.svg").default} alt="Logo" />
       {user ? (
         <>
@@ -37,6 +38,10 @@ const Sidebar = () => {
       )}
     </SidebarContainer>
   );
+};
+
+Sidebar.propTypes = {
+  open: bool.isRequired,
 };
 
 export default Sidebar;
@@ -60,6 +65,8 @@ const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: transform 0.3s ease-in-out;
+  transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(-100%)'};
 `;
 
 const Navigation = styled(NavLink)`

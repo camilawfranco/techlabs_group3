@@ -1,13 +1,17 @@
 import React from "react";
+import { useState } from "react";
 import Sidebar from "./Sidebar";
+import Burger from "./burger/Burger";
 import styled from "styled-components";
 import background from "../images/background.svg";
 
 const Layout = ({ children }) => {
+  const [openMenu, setOpenMenu] = useState(false);
   return (
     <LayoutContainer>
+      <Burger open={openMenu} setOpen={setOpenMenu} />
       <SidebarContainer>
-        <Sidebar />
+        <Sidebar open={openMenu} setOpen={setOpenMenu} />
       </SidebarContainer>
       <ContentContainer>{children}</ContentContainer>
     </LayoutContainer>
