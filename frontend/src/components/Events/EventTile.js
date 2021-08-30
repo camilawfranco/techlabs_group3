@@ -9,7 +9,8 @@ const EventTile = ({ event, handleShowEvent, setEvents }) => {
   const [eventData, setEventData] = useState({ ...event });
   const user = useContext(AuthContext);
   const [joined, setJoined] = useState(
-    Boolean(eventData.newParticipants.filter((participant) => participant.id === user?.uid))
+    // Boolean(eventData.newParticipants.filter((participant) => participant.id === user?.uid))
+    false
   );
   const isCreator = user?.uid === event.creator;
 
@@ -19,9 +20,14 @@ const EventTile = ({ event, handleShowEvent, setEvents }) => {
     event.stopPropagation();
     let newParticipantsList = [];
     if (!joined) {
-      newParticipantsList = [...eventData.newParticipants, { name: user?.displayName, id: user?.uid }];
+      newParticipantsList = [
+        ...eventData.newParticipants,
+        { name: user?.displayName, id: user?.uid },
+      ];
     } else {
-      newParticipantsList = [...eventData.newParticipants].filter((participant) => participant.id !== user?.uid);
+      newParticipantsList = [...eventData.newParticipants].filter(
+        (participant) => participant.id !== user?.uid
+      );
     }
     console.log("newParticipantsList", newParticipantsList);
     const newData = { ...eventData, newParticipants: newParticipantsList };
@@ -64,7 +70,7 @@ const EventTile = ({ event, handleShowEvent, setEvents }) => {
 
         <h4>
           <MdPeople />{" "}
-          {eventData.newParticipants.map((participant, index) => {
+          {eventData.eventData?.newParticipants?.map((participant, index) => {
             const numberParicipantsShown = 3;
             if (index < numberParicipantsShown) {
               if (index === eventData.newParticipants.length - 1) {
@@ -79,9 +85,15 @@ const EventTile = ({ event, handleShowEvent, setEvents }) => {
         <p>{eventData.text}</p>
 
         <ButtonArea>
-          {isCreator && <Button onClick={(event) => handleDelete(event, eventData._id)}>DELETE</Button>}
+          {isCreator && (
+            <Button onClick={(event) => handleDelete(event, eventData._id)}>
+              DELETE
+            </Button>
+          )}
 
-          {user && <Button onClick={handleJoin}>{joined ? "LEAVE" : "JOIN"}</Button>}
+          {user && (
+            <Button onClick={handleJoin}>{joined ? "LEAVE" : "JOIN"}</Button>
+          )}
         </ButtonArea>
       </EventTitleContent>
     </EventTileContainer>
