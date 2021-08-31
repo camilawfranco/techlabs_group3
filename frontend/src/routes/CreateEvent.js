@@ -158,7 +158,7 @@ const InputField = styled.input`
   border-color: #f0f0f0;
   border-radius: 10px;
   text-align: center;
-  color: #555b6e;
+  font-color: #555b6e;
   font-size: medium;
   outline: none;
   height: 40px;
@@ -218,7 +218,7 @@ const DatePickerField = styled(DatePicker)`
   border-color: #f0f0f0;
   border-radius: 10px;
   text-align: center;
-  color: #555b6e;
+  font-color: #555b6e;
   font-size: medium;
   outline: none;
   height: 40px;

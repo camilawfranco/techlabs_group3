@@ -52,7 +52,6 @@ const SingleEvent = () => {
         setParticipants(participantsArray.join(", "));
 
         setIsLoading(false);
-        console.log("user SingleEvent", user);
         console.log("problems detect creator", user?.uid, response.data.creator);
         if (response.data.creator === user?.uid) {
           setIsCreator(true);
